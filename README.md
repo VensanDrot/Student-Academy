@@ -12,12 +12,41 @@ Our creators are:
 
 * Abel Tapia, Backend Developer, [Github]( https://github.com/Csabel99)
 
+<br>
+
 ## How does ADV-Academy work?
 
-## What is our stack?
+<br>
 
-## What are the features of ADV-Academy?
+## What is our stack?
+### Backend
+![Node.js Shield](https://img.shields.io/badge/Node.js-43853d?style=for-the-badge&logo=node.js&logoColor=white) ![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![Prisma](https://img.shields.io/badge/Prisma-2D374A?style=for-the-badge&logo=prisma&logoColor=white)
+
+### Frontend
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Typescript](https://img.shields.io/badge/Typescript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+
+### Database
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+
+<br>
+
+## What are the features of ADV-Academy?    
+* Create an account to help others!
+
+* Share your study guides and notes!
+    
+* Sell your work for money or for free!
+
+* Free AI generated study guides!
+
+<br>
 
 ## What is the future of ADV-Academy?
+* Implementing a payment system
+
+<br>
 
 ## How can I contact ADV-Academy?
+* Via [Email](mailto:)
+
+<br>
