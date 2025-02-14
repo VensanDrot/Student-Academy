@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+body,
+* {
+  font-family: "Inter", sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow: hidden;
+}
+
+.scroll-cont {
+  /* overflow-y: auto !important;
+  overflow-x: hidden; */
+  scrollbar-width: thin;
+  scrollbar-color: #ffbe5c #fff;
+  scroll-behavior: smooth;
+  /* padding-right: 10px; */
+}
+
+.container_x {
+  overflow-y: hidden;
+  overflow-x: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: #ffbe5c #fff;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+}
+.language > div > .g-popup_open {
+  background-color: white !important;
+  border-radius: 10px;
+}
+.language > div > .g-select {
+  height: fit-content !important;
+}
+
+.language > div > .g-select-control__button::before {
+  border: 0 !important;
+}
+
+ul {
+  outline: 0;
+}
+
+.dashed {
+  border: "2px dashed transparent" !important;
+  background-image: "linear-gradient(to right, gray 50%, transparent 50%), linear-gradient(to bottom, gray 50%, transparent 50%)" !important;
+  background-size: "8px 8px" !important;
+  background-position: "center" !important;
+  background-repeat: "repeat" !important;
+  border-radius: "16px" !important;
+}

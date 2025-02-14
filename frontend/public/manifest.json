@@ -1,0 +1,26 @@
+{
+  "short_name": "Make knowledge and money with ADV Academy",
+  "name": "Make knowledge and money with ADV Academy",
+  "description": "Academy for students to post and buy courses on diffrent classes",
+  "icons": [
+    {
+      "src": "academy-favicon.svg",
+      "sizes": "64x64 24x24",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "academy-favicon.svg",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "academy-favicon.svg",
+      "type": "image/png",
+      "sizes": "16x16"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
