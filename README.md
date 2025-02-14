@@ -51,14 +51,3 @@ Our creators are:
 * Via [Email](mailto:)
 
 <br> 
-
-## How does ADV-Academy work?
-
-## What is our stack?
-
-## What are the features of ADV-Academy?
-
-## What is the future of ADV-Academy?
-
-## How can I contact ADV-Academy?
-
