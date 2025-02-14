@@ -12,6 +12,7 @@ Our creators are:
 
 * Abel Tapia, Backend Developer, [Github]( https://github.com/Csabel99)
 
+
 <br>
 
 ## How does ADV-Academy work?
@@ -49,4 +50,15 @@ Our creators are:
 ## How can I contact ADV-Academy?
 * Via [Email](mailto:)
 
-<br>
+<br> 
+
+## How does ADV-Academy work?
+
+## What is our stack?
+
+## What are the features of ADV-Academy?
+
+## What is the future of ADV-Academy?
+
+## How can I contact ADV-Academy?
+
