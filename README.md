@@ -1,13 +1,6 @@
 <a id="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -28,7 +21,6 @@
   </p>
 </div>
 
-
 <!-- Table of contents -->
 <details>
     <summary>Table of contents</summary>
@@ -44,76 +36,94 @@
 </details>
 
 ## What is ADV-Academy?
+
 For to long have students needed to balance their financial and education needs, we at ADV Academy want to change that, this is why we founded our website and started our journey. ADV Academy is a state of the art site made to allow students to share their study guides and notes on any course they have taken and to either sell or freely share their work. We the team of ADV Academy started this project with the aim to allow students to share knowledge on topics they had trouble with and help future students with any course they are struggling with. We hope you enjoy our site and make sure you email us if you have any questions or suggestions!
 
 ## Who are the creators of ADV-Academy?
+
 Our creators are:
-* Vensan Drot, Full Stack Web Developer, [Portfolio](https://www.vensandrot.com/)
 
-* David Rodriguez, Backend Developer, [Portfolio](https://drod75.github.io/)
+- Vensan Drot, Full Stack Web Developer, [Portfolio](https://www.vensandrot.com/)
 
-* Abel Tapia, Backend Developer, [Github](https://www.linkedin.com/in/abel-tapia-99at0211/)
+- David Rodriguez, Backend Developer, [Portfolio](https://drod75.github.io/)
 
+- Abel Tapia, Backend Developer, [Github](https://www.linkedin.com/in/abel-tapia-99at0211/)
 
 <br>
 
-## How does ADV-Academy work?
+## What are the features of ADV-Academy?
+
+The current features you can access are:
+
+- Create an account to help others!
+
+- Share your study guides and notes!
+
+- Free AI generated study guides!
 
 <br>
 
 ## What is our stack?
+
 ### Backend
-* ![Node.js Shield](https://img.shields.io/badge/Node.js-43853d?style=for-the-badge&logo=node.js&logoColor=white) 
-* ![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white) 
-* ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) 
-* ![Prisma](https://img.shields.io/badge/Prisma-2D374A?style=for-the-badge&logo=prisma&logoColor=white)
+
+- ![Node.js Shield](https://img.shields.io/badge/Node.js-43853d?style=for-the-badge&logo=node.js&logoColor=white)
+- ![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+- ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+- ![Prisma](https://img.shields.io/badge/Prisma-2D374A?style=for-the-badge&logo=prisma&logoColor=white)
 
 ### Frontend
-* ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Typescript](https://img.shields.io/badge/Typescript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+
+- ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Typescript](https://img.shields.io/badge/Typescript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 
 ### Database
-* ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+
+- ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+
+## Workflow Diagram
+
+<img src='' alt='diagram' width=500>
 
 <br>
 
-## What are the features of ADV-Academy?    
-The current features you can access are:
-* Create an account to help others!
+## Demo
 
-* Share your study guides and notes!
-    
-* Sell your work for money or for free!
-
-* Free AI generated study guides!
+<video width="500" height="500" controls>
+  <source src="movie.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 <br>
 
 ## What is the future of ADV-Academy?
+
 Our team is currently working on:
-* Implementing a payment system
+
+- Implementing a payment system where users can sell their work
 
 <br>
 
 ## How can I contact ADV-Academy?
+
 Via our LinkedIn pages:
 
-* [Vensen Drot](https://www.linkedin.com/in/vensandrot/)
+- [Vensan Drot](https://www.linkedin.com/in/vensandrot/)
 
-* [David Rodriguez](https://www.linkedin.com/in/david-rodriguez-nyc)
+- [David Rodriguez](https://www.linkedin.com/in/david-rodriguez-nyc)
 
-* [Abel Tapia](https://www.linkedin.com/in/abel-tapia-99at0211/)
+- [Abel Tapia](https://www.linkedin.com/in/abel-tapia-99at0211/)
 
-<br> 
+<br>
 
 ## Acknowledgements
+
 This repository was made for the Brooklyn College Bulldog Hacks Hackathon.
 
 **Devpost link:** https://bulldoghacks.devpost.com/?ref_content=default&ref_feature=challenge&ref_medium=portfolio
 
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/VensanDrot/BCHackathon.svg?style=for-the-badge
 [contributors-url]: https://github.com/VensanDrot/BCHackathon/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/VensanDrot/BCHackathon.svg?style=for-the-badge
