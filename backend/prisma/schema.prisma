@@ -22,3 +22,35 @@ model Users {
   user_type    Int?
   balance      Decimal?  @db.Decimal(10, 2)
 }
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Categories {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  name       String?   @default("")
+  Courses    Courses[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Courses {
+  id           Int            @id @default(autoincrement())
+  created_at   DateTime       @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime?      @default(now()) @db.Timestamp(6)
+  name         String?        @default("")
+  description  String?        @default("")
+  cost         Decimal?       @db.Decimal
+  category     Int?
+  Categories   Categories?    @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  CoursesFiles CoursesFiles[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model CoursesFiles {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  course_id  Int?
+  file_type  String?  @default("")
+  file_name  String?  @default("")
+  file_path  String?  @default("")
+  Courses    Courses? @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
