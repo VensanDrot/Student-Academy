@@ -16,7 +16,7 @@
   </a><h3>ADV-Academy</h3>
 
   <p align="center">
-    A site made for students, by studenets
+    A site made for students, by students
     <br/>
   </p>
 </div>
@@ -80,6 +80,8 @@ The current features you can access are:
 
 - ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 
+<br>
+
 ## Workflow Diagram
 
 <img src='' alt='diagram' width=500>
@@ -119,7 +121,7 @@ Via our LinkedIn pages:
 
 This repository was made for the Brooklyn College Bulldog Hacks Hackathon.
 
-**Devpost link:** https://bulldoghacks.devpost.com/?ref_content=default&ref_feature=challenge&ref_medium=portfolio
+Devpost link: https://bulldoghacks.devpost.com/?ref_content=default&ref_feature=challenge&ref_medium=portfolio
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
