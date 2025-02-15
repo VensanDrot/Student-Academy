@@ -4,15 +4,11 @@ import jwt from "jsonwebtoken";
 import { getDecodedToken } from "../../utils/getDecodedToken";
 import { Prisma } from "@prisma/client";
 
-const getCreatedCourses = async (req: Request, res: Response): Promise<any> => {
+const getAllCourses = async (req: Request, res: Response): Promise<any> => {
     const token = req.headers["x-access-token"] as string;
 
-    const userId = getDecodedToken(token);
-
-    if (userId === null) return res.status(404).json({ message: "User not found" });
-
     // Extract query parameters: search, page, items_per_page
-    const { search = "", page = "1", items_per_page = "10" } = req.query;
+    const { search = "", cat_id, page = "1", items_per_page = "10" } = req.query;
     const pageNum = parseInt(page as string, 10) || 1;
     const perPage = parseInt(items_per_page as string, 10) || 10;
     const skip = (pageNum - 1) * perPage;
@@ -29,7 +25,7 @@ const getCreatedCourses = async (req: Request, res: Response): Promise<any> => {
     try {
         const where: Prisma.CoursesWhereInput = {
             OR: searchVariants,
-            AND: { author: userId },
+            ...(cat_id ? { AND: { category: { equals: Number(cat_id) } } } : {}),
         };
 
         const relevanceSQL = searchTerms
@@ -43,29 +39,49 @@ const getCreatedCourses = async (req: Request, res: Response): Promise<any> => {
             .join(" + ");
 
         const rawQuery = `
-      SELECT id, name, description, activated as "state", cost, "created_at",
-      (${relevanceSQL}) AS relevance, (SELECT CAST(COUNT(*) AS int) FROM "Subscriptions" WHERE "Subscriptions"."course_id" = "Courses"."id") AS users,
+      SELECT 
+  c.id, 
+  c.name, 
+  c.description, 
+  c.activated, 
+  c.cost, 
+  c."created_at",
+  (${relevanceSQL}) AS relevance,
   (
-      SELECT file_name 
-      FROM "CoursesFiles" 
-      WHERE course_id = "Courses".id 
-        AND file_type ILIKE '%image%'
-      ORDER BY "created_at" ASC
-      LIMIT 1
-    ) AS preview
-      FROM "Courses"
-      WHERE author = ${userId} AND ${searchTerms
-          .map(
-              (term: string) => `
-      (name ILIKE '%${term}%' OR "description" ILIKE '%${term}%')
-    `
-          )
-          .join(" OR ")}
-      ORDER BY ${relevanceSQL} DESC, "created_at" DESC
-      LIMIT ${perPage} OFFSET ${skip}
-    `;
+    SELECT CAST(COUNT(*) AS int)
+    FROM "Subscriptions" s
+    WHERE s."course_id" = c."id"
+  ) AS users,
+  (
+    SELECT json_agg(row_to_json(cf))
+    FROM (
+      SELECT
+        "file_name",
+        "file_path",
+        "id"
+      FROM "CoursesFiles" cd
+      WHERE "course_id" = c.id AND cd."file_type" ILIKE '%image%'
+      ORDER BY "created_at" DESC
+    ) AS cf
+  ) AS course_files
+FROM "Courses" c
+WHERE 
+  ${searchTerms
+      .map(
+          (term: string) => `
+        (c.name ILIKE '%${term}%' OR c."description" ILIKE '%${term}%')
+      `
+      )
+      .join(" OR ")}
+  AND c.activated = true
+ORDER BY 
+  ${relevanceSQL} DESC,
+  c."created_at" DESC
+LIMIT ${perPage}
+OFFSET ${skip};
+ `;
 
-        // console.log(rawQuery);
+        console.log(rawQuery);
 
         const response = await prisma.$transaction([
             prisma.courses.count({
@@ -74,14 +90,13 @@ const getCreatedCourses = async (req: Request, res: Response): Promise<any> => {
             prisma.$queryRawUnsafe(rawQuery),
         ]);
 
-        return res.status(200).json({
-            data: response[1],
-            pages: Math.ceil(response[0] / Number(items_per_page)),
-        });
+        return res
+            .status(200)
+            .json({ courses: response[1], pages: Math.ceil(response[0] / Number(items_per_page)) });
     } catch (error) {
         console.error("Error fetching courses:", error);
         return res.status(500).json({ message: "Internal Server Error", error });
     }
 };
 
-export default getCreatedCourses;
+export default getAllCourses;

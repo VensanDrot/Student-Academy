@@ -7,6 +7,7 @@ import LoginPage from "../pages/LoginPage";
 import RootLayoutSigned from "../pages/RootLayoutSigned";
 import CreatedCourses from "../pages/CreatedCourses";
 import CourseCreation from "../pages/CourseCreation";
+import HomePage from "../pages/HomePage";
 
 const Routes = () => {
   const router = createBrowserRouter([
@@ -15,6 +16,7 @@ const Routes = () => {
     {
       element: <RootLayoutSigned />,
       children: [
+        { path: "/", element: <HomePage /> },
         { path: "/uploadedcourses", element: <CreatedCourses /> },
         { path: "/createcourse", element: <CourseCreation /> },
       ],
