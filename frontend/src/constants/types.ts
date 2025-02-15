@@ -34,8 +34,33 @@ export type LoadingBar = {
 export interface Categories {
   id: number;
   no: number;
+  count: number;
   name: string;
 }
+
+export type CourseOrgActive = {
+  id: number;
+  name: string;
+  category: string;
+  purchased: boolean;
+  cost: number;
+  students: number;
+  students_finished: number;
+  currency: string;
+  course_files: DefaultFile[];
+};
+
+export type CourseOrgAll = {
+  id: number;
+  name: string;
+  category: string;
+  purchased: boolean;
+  cost: number;
+  students: number;
+  students_finished: number;
+  currency: string;
+  course_files: DefaultFile[];
+};
 
 export interface ProgramBuild {
   id: number | string;
