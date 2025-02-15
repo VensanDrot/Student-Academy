@@ -7,6 +7,7 @@ import multer from "multer";
 import cors from "cors";
 import path from "path";
 import fs, { fstat } from "fs";
+import { authenticateToken } from "./middleware/authMiddleware";
 
 var jsonParser = bodyParser.json();
 const prisma = new PrismaClient();
@@ -27,6 +28,10 @@ app.use(
 
 app.use("/user", authRoutes);
 
+app.get("/actions/secure-data", authenticateToken, (req: Request, res: Response) => {
+    res.json({ message: "This is a protected route" });
+});
+
 // fs.access("../image", function (error) {
 //   if (error) {
 //     fs.mkdir(path.join(__dirname, "../image"), (err) => {
@@ -36,5 +41,11 @@ app.use("/user", authRoutes);
 //     });
 //   }
 // });
+
+app.use((req: Request, res: Response) => {
+    res.status(405).json({
+        message: `Method ${req.method} not allowed on ${req.originalUrl}`,
+    });
+});
 
 app.listen(3001, () => console.log("listening on port 3001"));
