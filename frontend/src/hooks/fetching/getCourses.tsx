@@ -19,7 +19,7 @@ export type CoursesAdminResponse = {
 
 export const getCreatedCourses = async (page: number | string, recordsPerPage: number, search: string) => {
   const { data } = await apiClient.get<CoursesAdminResponse, AxiosResponse<CoursesAdminResponse>>(
-    `/course/get-courses?page=${page}&search=${search}&items_per_page=${recordsPerPage}`
+    `/course/created-courses?page=${page}&search=${search}&items_per_page=${recordsPerPage}`
   );
 
   return data as CoursesAdminResponse;

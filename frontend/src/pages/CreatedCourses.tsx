@@ -11,6 +11,7 @@ import { ReactComponent as ToRight } from "../img/toright.svg";
 import StatusComponent from "../components/StatusComponent";
 import { useNavigate } from "react-router-dom";
 import { GetCorrectedLink, GetCorrectedLinkImg } from "../utils/getCorrectedLink";
+import { getCreatedCourses } from "../hooks/fetching/getCourses";
 
 const CreatedCourses = () => {
   const { t } = useTranslation();
@@ -19,20 +20,19 @@ const CreatedCourses = () => {
   const [recordsPerPage, setRecordsPerPage] = useState(10);
   const [search, setSearch] = useState("");
 
-  // const { data: courses, isLoading } = useQuery({
-  //   queryKey: ["courses", page, recordsPerPage, useDebouncedValue(search, 400)],
-  //   queryFn: () => getAdminCourses(page, recordsPerPage, search),
-  //   retry: 1,
-  // });
+  const { data: courses, isLoading } = useQuery({
+    queryKey: ["courses", page, recordsPerPage, useDebouncedValue(search, 400)],
+    queryFn: () => getCreatedCourses(page, recordsPerPage, search),
+    retry: 1,
+  });
 
   const columns = [
-    { id: "no", name: "№" },
     {
       id: "name",
       name: t("admin_courses.name"),
       template: (item: any) => (
         <div className="flex gap-1 items-center">
-          <img className="h-12 w-12 rounded-lg" src={GetCorrectedLinkImg(item?.preview)} alt="img" />
+          <img className="h-12 w-12 rounded-lg object-cover" src={GetCorrectedLinkImg(item?.preview)} alt="img" />
           <div className="flex flex-col gap-1 h-full">
             <span className="text-tr font-semibold text-textblack">{item.name}</span>
             <span className="text-tr font-normal text-golden">{item.category}</span>
@@ -62,7 +62,7 @@ const CreatedCourses = () => {
       <button
         key={item.id}
         className="w-[50px] h-full flex justify-center items-center"
-        onClick={() => navigate(`/course?id=${item.id}&name=${item.name}`)}
+        onClick={() => navigate(`/createcourse?id=${item.id}&name=${item.name}`)}
       >
         <ToRight className="fill-icongray" />
       </button>
@@ -83,14 +83,14 @@ const CreatedCourses = () => {
       />
 
       <TableComponent
-        isLoading={false}
-        data={[]}
+        isLoading={isLoading}
+        data={courses?.data || []}
         columns={columns}
         page={page}
         perPage={recordsPerPage}
         setPage={setPage}
         setPerPage={setRecordsPerPage}
-        totalPages={1 * recordsPerPage}
+        totalPages={(courses?.pages || 1) * recordsPerPage}
         className="w-full [&>table]:!w-full"
         rowActionRender={RowAction}
       />
