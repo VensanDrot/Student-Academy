@@ -20,4 +20,5 @@ model Users {
   phone_number String?   @default("")
   password     String?   @default("")
   user_type    Int?
+  balance      Decimal?  @db.Decimal(10, 2)
 }
