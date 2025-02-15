@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import React, { useEffect, useRef, useState } from "react";
 // import { TopMenu } from "../components/TopMenu";
 import { Outlet, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useRefreshToken } from "../hooks/mutations/loginUser";
 // import SideMenu from "../components/SideMenu";
 // import { useRefreshToken } from "../hooks/fetching/getAuth";
 
@@ -13,6 +14,30 @@ const RootLayoutSigned = () => {
   const [searchParams] = useSearchParams();
   const outletRef = useRef<HTMLDivElement>(null);
   const [scrollableElement, setScrollableElement] = useState<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const accessToken = Cookies.get("access");
+    const refreshToken = Cookies.get("refresh");
+
+    if (refreshToken && !accessToken) refreshTokenMutation.mutate({ refreshToken });
+
+    if (
+      !accessToken &&
+      location.pathname !== "/registration" &&
+      location.pathname !== "/recoverpassword" &&
+      location.pathname !== "/login"
+    )
+      navigate(`/login?backto=${searchParams.get("backto") || location.pathname}`);
+  }, [navigate, location.pathname]);
+
+  const refreshTokenMutation = useRefreshToken({
+    onSuccess: (data) => {
+      navigate(searchParams.get("backto") || "/");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   return (
     <ScrollContext.Provider value={scrollableElement}>

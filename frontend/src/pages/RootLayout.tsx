@@ -3,11 +3,36 @@ import React, { useEffect } from "react";
 // import { TopMenu } from "../components/TopMenu";
 import { Outlet, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { TopMenu } from "../components/TopMenu";
+import { useRefreshToken } from "../hooks/mutations/loginUser";
 
 const RootLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const accessToken = Cookies.get("access");
+    const refreshToken = Cookies.get("refresh");
+
+    if (refreshToken && !accessToken) refreshTokenMutation.mutate({ refreshToken });
+
+    if (
+      !accessToken &&
+      location.pathname !== "/registration" &&
+      location.pathname !== "/recoverpassword" &&
+      location.pathname !== "/login"
+    )
+      navigate(`/login?backto=${searchParams.get("backto") || location.pathname}`);
+  }, [navigate, location.pathname]);
+
+  const refreshTokenMutation = useRefreshToken({
+    onSuccess: (data) => {
+      navigate(searchParams.get("backto") || "/");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   return (
     <div className="flex flex-col h-screen w-screen bg-primarygrey">
