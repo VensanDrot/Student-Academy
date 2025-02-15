@@ -54,23 +54,4 @@ export const SideMenuLinks = [
   },
 ];
 
-export const removeCookies = [
-  "access",
-  "courses",
-  "admins",
-  "clients",
-  "admin",
-  "name",
-  "lastname",
-  "phone_number",
-  "categories",
-  "courses",
-  "active_courses",
-  "exams",
-  "users",
-  "subscriptions",
-  "analytics",
-  "profile",
-  "avatar",
-  "refresh",
-];
+export const removeCookies = ["access", "name", "lastname", "refresh", "email"];
