@@ -38,8 +38,9 @@ model Courses {
   updated_at   DateTime?      @default(now()) @db.Timestamp(6)
   name         String?        @default("")
   description  String?        @default("")
-  cost         Decimal?       @db.Decimal
+  cost         Decimal?       @db.Decimal(10, 2)
   category     Int?
+  activated    Boolean?       @default(true)
   Categories   Categories?    @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
   CoursesFiles CoursesFiles[]
 }

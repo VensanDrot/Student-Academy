@@ -4,22 +4,28 @@ import NotFound from "../pages/NotFound";
 import RootLayout from "../pages/RootLayout";
 import RegistrationPage from "../pages/RegistrationPage";
 import LoginPage from "../pages/LoginPage";
+import RootLayoutSigned from "../pages/RootLayoutSigned";
+import CreatedCourses from "../pages/CreatedCourses";
+import CourseCreation from "../pages/CourseCreation";
 
 const Routes = () => {
   const router = createBrowserRouter([
     // ...routerDisplay(),
     // ...logRegRoutes,
     {
-      element: <RootLayout />,
-      children: [{ path: "/registration", element: <RegistrationPage /> }],
+      element: <RootLayoutSigned />,
+      children: [
+        { path: "/uploadedcourses", element: <CreatedCourses /> },
+        { path: "/createcourse", element: <CourseCreation /> },
+      ],
     },
     {
       element: <RootLayout />,
-      children: [{ path: "/login", element: <LoginPage /> }],
-    },
-    {
-      element: <RootLayout />,
-      children: [{ path: "*", element: <NotFound /> }],
+      children: [
+        { path: "/registration", element: <RegistrationPage /> },
+        { path: "/login", element: <LoginPage /> },
+        { path: "*", element: <NotFound /> },
+      ],
     },
   ]);
 

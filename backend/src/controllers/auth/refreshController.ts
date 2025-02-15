@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import prisma from "../../../prisma/index";
+import { prisma } from "../../../prisma/index";
 import dotenv from "dotenv";
 
 dotenv.config();
