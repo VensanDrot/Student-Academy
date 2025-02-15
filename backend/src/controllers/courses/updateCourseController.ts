@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { prisma } from "../../../prisma/index";
 import multer from "multer";
+import jwt from "jsonwebtoken";
 
 // Configure Multer for new file uploads
 const storage = multer.diskStorage({
@@ -22,6 +23,16 @@ export const updateCourse = async (req: Request, res: Response) => {
             return res.status(400).json({ message: "File upload error", error: err.message });
         }
 
+        const token = req.headers["x-access-token"] as string;
+        let decoded: any;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET!);
+            if (!decoded.id) return res.status(401).json({ message: "Invalid token" });
+        } catch (error) {
+            return res.status(401).json({ message: "Invalid token", error });
+        }
+        const userId = decoded.id;
+
         try {
             const { id } = req.params;
             if (!id) return res.status(400).json({ message: "Missing course ID" });
@@ -30,7 +41,7 @@ export const updateCourse = async (req: Request, res: Response) => {
             if (isNaN(courseId)) return res.status(400).json({ message: "Invalid course ID" });
 
             // Extract fields to update
-            const { name, description, cost, category, remove_files } = req.body;
+            const { name, description, cost, category, remove_files, activated } = req.body;
 
             // Ensure `remove_files` is an array
             let filesToRemove = remove_files;
@@ -43,6 +54,9 @@ export const updateCourse = async (req: Request, res: Response) => {
                 where: { id: courseId },
                 include: { CoursesFiles: true },
             });
+
+            if (course?.author !== userId)
+                return res.status(401).json({ message: "You have no permission to edit" });
 
             if (!course) return res.status(404).json({ message: "Course not found" });
 
@@ -88,6 +102,7 @@ export const updateCourse = async (req: Request, res: Response) => {
                     description: description || undefined,
                     cost: cost ? parseFloat(cost) : undefined,
                     category: category ? parseInt(category) : undefined,
+                    activated: activated ? (activated === "true" ? true : false) : undefined,
                 },
                 include: { CoursesFiles: true },
             });

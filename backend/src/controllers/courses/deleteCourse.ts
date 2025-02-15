@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
 import { prisma } from "../../../prisma/index";
+import jwt from "jsonwebtoken";
 
 export const deleteCourse = async (req: Request, res: Response): Promise<any> => {
     try {
@@ -9,6 +10,16 @@ export const deleteCourse = async (req: Request, res: Response): Promise<any> =>
         if (!id) {
             return res.status(400).json({ message: "Missing course ID" });
         }
+
+        const token = req.headers["x-access-token"] as string;
+        let decoded: any;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET!);
+            if (!decoded.id) return res.status(401).json({ message: "Invalid token" });
+        } catch (error) {
+            return res.status(401).json({ message: "Invalid token", error });
+        }
+        const userId = decoded.id;
 
         const courseId = parseInt(id, 10);
         if (isNaN(courseId)) {
@@ -21,11 +32,14 @@ export const deleteCourse = async (req: Request, res: Response): Promise<any> =>
             include: { CoursesFiles: true },
         });
 
+        if (course?.author !== userId)
+            return res.status(401).json({ message: "You have no permission to edit" });
+
         if (!course) {
             return res.status(404).json({ message: "Course not found" });
         }
 
-        // ✅ Delete associated files from disk
+        //  Delete associated files from disk
         if (course.CoursesFiles.length > 0) {
             course.CoursesFiles.forEach((file) => {
                 const filePath = path.resolve(__dirname, "../../../image", file.file_path || "");

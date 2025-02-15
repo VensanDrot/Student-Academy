@@ -79,7 +79,12 @@ const CourseDescriptionComponent: React.FC<IProps> = ({
     onError: (data) => {
       console.log(data);
       setIsDisabled(false);
-      setToaster({ header: t("err_head"), line: t("def_err"), open: true, error: true });
+      setToaster({
+        header: t("err_head"),
+        line: data?.response?.data?.message || t("def_err"),
+        open: true,
+        error: true,
+      });
       setLoadingBar((prev) => ({ ...prev, active: false }));
     },
     onProgress: (data) => {
@@ -112,7 +117,12 @@ const CourseDescriptionComponent: React.FC<IProps> = ({
     onError: (data) => {
       console.log(data);
       setIsDisabled(false);
-      setToaster({ header: t("err_head"), line: t("def_err"), open: true, error: true });
+      setToaster({
+        header: t("err_head"),
+        line: data?.response?.data?.message || t("def_err"),
+        open: true,
+        error: true,
+      });
       if (data?.message !== "canceled") {
         setLoadingBar((prev) => ({ ...prev, active: false }));
         setCourseAndFiles(courseRetrieve);

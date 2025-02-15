@@ -21,8 +21,8 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.json()); // ✅ Parse JSON requests
-app.use(express.urlencoded({ extended: true })); // ✅ Parse URL-encoded requests
+app.use(express.json()); //  Parse JSON requests
+app.use(express.urlencoded({ extended: true })); //  Parse URL-encoded requests
 app.use(
     cors({
         origin: ["http://localhost:3000"],

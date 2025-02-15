@@ -11,16 +11,18 @@ datasource db {
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Users {
-  id           Int       @id @default(autoincrement())
-  created_at   DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at   DateTime? @default(now()) @db.Timestamp(6)
-  firstname    String?   @default("")
-  lastname     String?   @default("")
-  email        String?   @unique @default("")
-  phone_number String?   @default("")
-  password     String?   @default("")
-  user_type    Int?
-  balance      Decimal?  @db.Decimal(10, 2)
+  id            Int             @id @default(autoincrement())
+  created_at    DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime?       @default(now()) @db.Timestamp(6)
+  firstname     String?         @default("")
+  lastname      String?         @default("")
+  email         String?         @unique @default("")
+  phone_number  String?         @default("")
+  password      String?         @default("")
+  user_type     Int?
+  balance       Decimal?        @db.Decimal(10, 2)
+  Courses       Courses[]
+  Subscriptions Subscriptions[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -33,16 +35,19 @@ model Categories {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Courses {
-  id           Int            @id @default(autoincrement())
-  created_at   DateTime       @default(now()) @db.Timestamptz(6)
-  updated_at   DateTime?      @default(now()) @db.Timestamp(6)
-  name         String?        @default("")
-  description  String?        @default("")
-  cost         Decimal?       @db.Decimal(10, 2)
-  category     Int?
-  activated    Boolean?       @default(true)
-  Categories   Categories?    @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  CoursesFiles CoursesFiles[]
+  id            Int             @id @default(autoincrement())
+  created_at    DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime?       @default(now()) @db.Timestamp(6)
+  name          String?         @default("")
+  description   String?         @default("")
+  cost          Decimal?        @db.Decimal(10, 2)
+  category      Int?
+  activated     Boolean?        @default(true)
+  author        Int?
+  Users         Users?          @relation(fields: [author], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Categories    Categories?     @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  CoursesFiles  CoursesFiles[]
+  Subscriptions Subscriptions[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -54,4 +59,16 @@ model CoursesFiles {
   file_name  String?  @default("")
   file_path  String?  @default("")
   Courses    Courses? @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Subscriptions {
+  id           Int      @id @default(autoincrement())
+  created_at   DateTime @default(now()) @db.Timestamptz(6)
+  course_id    Int?
+  user_id      Int?
+  amount_paid  Decimal? @db.Decimal
+  course_price Decimal? @db.Decimal
+  Courses      Courses? @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Users        Users?   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

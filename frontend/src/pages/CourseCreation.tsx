@@ -169,8 +169,9 @@ const CourseCreation = () => {
       navigate("/uploadedcourses");
     },
     onError: (data) => {
-      console.log(data);
+      setToaster({ header: t("err_head"), line: data?.response?.data?.message || "", open: true, error: true });
       setCourseAndFiles(courseRetrieve);
+      setDeleteCourse(false);
     },
   });
 
@@ -536,7 +537,7 @@ const CourseCreation = () => {
       </ModalWindow>
 
       <div className="flex flex-col gap-5 h-full container">
-        <Link to={"/"} className="flex items-center gap-2 text-4xl text-textblack font-semibold">
+        <Link to={"/uploadedcourses"} className="flex items-center gap-2 text-4xl text-textblack font-semibold">
           <Arrow className="fill-textblack rotate-180 h-5 w-5" />
           {course.name || t("no_name")}
         </Link>

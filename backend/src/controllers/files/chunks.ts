@@ -4,13 +4,13 @@ import path from "path";
 
 export const getVideoChunk = (req: Request, res: Response): void => {
     try {
-        const { key } = req.query; // ✅ Use "key" to receive file name
+        const { key } = req.query; //  Use "key" to receive file name
         if (!key || typeof key !== "string") {
             res.status(400).json({ message: "Missing or invalid file key" });
             return;
         }
 
-        const decodedKey = decodeURIComponent(key); // ✅ Decode URL-encoded names
+        const decodedKey = decodeURIComponent(key); //  Decode URL-encoded names
         const videoPath = path.join(__dirname, "../../../image", decodedKey);
 
         if (!fs.existsSync(videoPath)) {
