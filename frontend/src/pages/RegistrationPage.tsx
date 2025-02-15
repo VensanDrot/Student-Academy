@@ -42,7 +42,10 @@ const RegistrationPage = () => {
         password: "",
       });
       Cookies.set("access", data?.access, { expires: 0.25 });
-      Cookies.set("refresh", data?.refresh, { expires: 7 });
+      data?.refresh && Cookies.set("refresh", data?.refresh, { expires: 7 });
+      Cookies.set("name", data?.user?.firstname as string, { expires: 7 });
+      data?.user?.lastname && Cookies.set("lastname", data?.user?.lastname as string, { expires: 7 });
+      data?.user?.email && Cookies.set("email", data?.user?.email as string, { expires: 7 });
     },
     onError: (error) => {
       setError(error?.response?.data?.message || t("def_err"));

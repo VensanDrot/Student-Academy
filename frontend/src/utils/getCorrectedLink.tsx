@@ -4,5 +4,5 @@ export const GetCorrectedLink = (path: string) => {
 };
 export const GetCorrectedLinkImg = (path: string) => {
   if (!path) return "";
-  return `https://jowi-academy-staging-storage.ams3.digitaloceanspaces.com/${path}`;
+  return `${process.env.REACT_APP_BACKEND_URL}/download/${path}`;
 };
