@@ -6,6 +6,7 @@ import { updateCourse } from "../controllers/courses/updateCourseController";
 import getCreatedCourses from "../controllers/courses/getCreatedCourses";
 import getAllCourses from "../controllers/courses/getAllCourses";
 import getPurchasedCourses from "../controllers/courses/getPurchasedCourses";
+import { getClientCourseDetails } from "../controllers/courses/getCourseDetails";
 
 const coursesRouter = Router();
 
@@ -14,6 +15,7 @@ coursesRouter.patch("/:id", updateCourse);
 coursesRouter.delete("/:id", deleteCourse);
 coursesRouter.post("/course", createCourse);
 coursesRouter.get("/courses", getAllCourses);
+coursesRouter.get("/course-details", getClientCourseDetails);
 coursesRouter.get("/created-courses", getCreatedCourses);
 coursesRouter.get("/purchased-courses", getPurchasedCourses);
 

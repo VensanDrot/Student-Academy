@@ -59,7 +59,7 @@ const CoursePreviewComponent: React.FC<IProps> = ({ index, text, course, buyButt
         <p className="text-2xl text-black font-semibold">{course?.name}</p>
         <p className="text-xl text-textlightgrey font-semibold">{text || <>{course?.cost && `$${course?.cost}`}</>}</p>
       </div>
-      <div className="flex gap-3">
+      <div className="flex gap-3 mt-auto">
         <Button type="button" onClick={onDetails} className="w-full" view="normal" size="xl">
           {t("bus_course.details")}
         </Button>

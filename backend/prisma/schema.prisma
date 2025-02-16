@@ -24,6 +24,7 @@ model Users {
   Courses        Courses[]
   PaymentMethods PaymentMethods[]
   Subscriptions  Subscriptions[]
+  TestResults    TestResults[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -105,6 +106,7 @@ model Programs {
   Courses       Courses?        @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   ProgramsFiles ProgramsFiles[]
   Question      Question[]
+  TestResults   TestResults[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -138,4 +140,16 @@ model Question {
   question   String?   @default("")
   Answer     Answer[]
   Programs   Programs? @relation(fields: [program_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model TestResults {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @updatedAt @db.Timestamptz(6)
+  user_id    Int?
+  test_id    Int?
+  result     Int?
+  Programs   Programs? @relation(fields: [test_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Users      Users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
