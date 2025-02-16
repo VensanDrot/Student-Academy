@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import React, { useEffect, useRef, useState } from "react";
 import { Outlet, useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { useRefreshToken } from "../hooks/mutations/loginUser";
+import { useRefreshToken } from "../hooks/mutations/login-user";
 import { TopMenu } from "../components/TopMenu";
 import SideMenu from "../components/SideMenu";
 

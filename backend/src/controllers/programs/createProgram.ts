@@ -106,6 +106,82 @@ export const createProgram = async (req: Request, res: Response): Promise<any> =
             return; // or break;
         }
 
+        case "2": {
+            try {
+                const { name, order, passing_score, reward_score, questions } = req.body;
+
+                if (!name || !Array.isArray(questions)) {
+                    return res
+                        .status(400)
+                        .json({ message: "Missing required test fields (name, questions)" });
+                }
+
+                // Create the test program
+                const newProgram = await prisma.programs.create({
+                    data: {
+                        name,
+                        course_id: Number(course_id),
+                        order: order ? Number(order) : undefined,
+                        type: 2,
+                        reward_score: reward_score ? Number(reward_score) : undefined,
+                        passing_score: passing_score ? Number(passing_score) : undefined,
+                        Question: {
+                            create: questions?.map((question) => ({
+                                question: question?.question,
+                                Answer: {
+                                    create: question?.answers?.map((answer: any) => ({
+                                        answer: answer?.answer,
+                                        is_true: answer?.is_true === "true" ? true : false,
+                                    })),
+                                },
+                            })),
+                        },
+                    },
+                    include: {
+                        Question: {
+                            select: {
+                                id: true,
+                                question: true,
+                                Answer: true,
+                            },
+                        },
+                    },
+                });
+
+                const responseData = {
+                    id: newProgram.id,
+                    name: newProgram?.name,
+                    order: newProgram?.order,
+                    type: newProgram?.type,
+                    test: {
+                        reward_score: newProgram.reward_score,
+                        passing_score: newProgram.passing_score,
+                        questions: newProgram.Question.map((q) => ({
+                            id: q.id,
+                            question: q.question,
+                            answers: q.Answer.map((ans) => ({
+                                id: ans.id,
+                                answer: ans.answer,
+                                is_true: ans.is_true,
+                            })),
+                        })),
+                    },
+                };
+
+                console.log(responseData);
+
+                return res.status(201).json({
+                    message: "Test created successfully",
+                    data: responseData,
+                });
+            } catch (err: any) {
+                console.error("Error creating test:", err);
+                return res
+                    .status(500)
+                    .json({ message: "Failed to create test", error: err.message });
+            }
+        }
+
         default:
             return res.status(404).json({ message: "Unknown type" });
     }

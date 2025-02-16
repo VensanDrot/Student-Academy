@@ -1,7 +1,7 @@
 import { DefaultError, useMutation } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { apiClientFormData } from "../clientApi";
-import { CourseRes } from "./createCourse";
+import { CourseRes } from "./create-course";
 
 interface NewCategoryReq {
   id: number; // Ensure `id` is present

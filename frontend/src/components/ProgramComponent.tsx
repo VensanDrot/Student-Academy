@@ -7,7 +7,7 @@ import { LoadingBar, ProgramAnswer, ProgramBuild, ProgramBuildErrors, ProgramQue
 import { ReactComponent as Bin } from "../img/bin.svg";
 import { ReactComponent as Plus } from "../img/plus.svg";
 import { UseMutationResult } from "@tanstack/react-query";
-import { CourseRes } from "../hooks/mutations/createCourse";
+import { CourseRes } from "../hooks/mutations/create-course";
 
 interface IProps {
   type: number;
@@ -19,7 +19,7 @@ interface IProps {
   courseId: number | string;
   createProgramLessonMutation: UseMutationResult<any, any, any, any>;
   // updateProgramLessonMutation: UseMutationResult<any, any, any, any>;
-  // createTestLessonMutation: UseMutationResult<any, any, any, any>;
+  createTestLessonMutation: UseMutationResult<any, any, any, any>;
   // updateTestLessonMutation: UseMutationResult<any, any, any, any>;
   // createExamLessonMutation: UseMutationResult<any, any, any, any>;
   // updateExamLessonMutation: UseMutationResult<any, any, any, any>;
@@ -38,7 +38,7 @@ const ProgramComponent: React.FC<IProps> = ({
   courseId,
   createProgramLessonMutation,
   // updateProgramLessonMutation,
-  // createTestLessonMutation,
+  createTestLessonMutation,
   // updateTestLessonMutation,
   // createExamLessonMutation,
   // updateExamLessonMutation,
@@ -479,20 +479,20 @@ const ProgramComponent: React.FC<IProps> = ({
 
         if (err > 0) return;
 
-        // createTestLessonMutation.mutate({
-        //   course_id: courseId,
-        //   name: programToSubmit?.name,
-        //   type: programToSubmit?.type,
-        //   order: Number(programToSubmit?.order),
-        //   reward_score: Number(programToSubmit?.rewardScore),
-        //   passing_score: Number(programToSubmit?.passingScore),
-        //   questions: [
-        //     ...programToSubmit?.questions?.map((question) => ({
-        //       question: question?.question,
-        //       answers: [...question?.answers?.map((answer) => ({ answer: answer?.answer, is_true: answer?.isTrue }))],
-        //     })),
-        //   ],
-        // });
+        createTestLessonMutation.mutate({
+          course_id: courseId,
+          name: programToSubmit?.name,
+          type: programToSubmit?.type,
+          order: Number(programToSubmit?.order),
+          reward_score: Number(programToSubmit?.rewardScore),
+          passing_score: Number(programToSubmit?.passingScore),
+          questions: [
+            ...programToSubmit?.questions?.map((question) => ({
+              question: question?.question,
+              answers: [...question?.answers?.map((answer) => ({ answer: answer?.answer, is_true: answer?.isTrue }))],
+            })),
+          ],
+        });
       }
     }
   };

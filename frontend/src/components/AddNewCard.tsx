@@ -8,7 +8,7 @@ import { ReactComponent as UzCard } from "../img/Uzcard.svg";
 import { ReactComponent as MasterCard } from "../img/mastercard.svg";
 import PhoneInputComp from "./PhoneInput";
 import { DateField } from "@gravity-ui/date-components";
-import { useCreateCardMutation } from "../hooks/mutations/createCard";
+import { useCreateCardMutation } from "../hooks/mutations/create-card";
 import { ReactComponent as Success } from "../img/success.svg";
 
 interface IProps {

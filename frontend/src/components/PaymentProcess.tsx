@@ -11,7 +11,7 @@ import { CardIcon } from "../utils/CardIcons";
 import { ReactComponent as Fail } from "../img/failicon.svg";
 import ModalWindow from "./ModalWindow";
 import { getAllCards } from "../hooks/fetching/getAllCards";
-import { useProcessPayment } from "../hooks/mutations/processPayment";
+import { useProcessPayment } from "../hooks/mutations/process-payment";
 
 interface IProps {
   courseId: string;

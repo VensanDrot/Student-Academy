@@ -10,8 +10,8 @@ import { Course, LoadingBar } from "../constants/types";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { ToasterReq } from "../pages/CourseCreation";
-import { useCreateCourseMutation, CourseRes } from "../hooks/mutations/createCourse";
-import { useUpdateCourseMutation } from "../hooks/mutations/updateCourse";
+import { useCreateCourseMutation, CourseRes } from "../hooks/mutations/create-course";
+import { useUpdateCourseMutation } from "../hooks/mutations/update-course";
 
 interface IProps {
   courseRetrieve: any; // change type

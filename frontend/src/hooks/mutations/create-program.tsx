@@ -88,7 +88,7 @@ export const useCreateTestMutation = ({
   useMutation<any, DefaultError, any>({
     mutationFn: async (form) => {
       const { data } = await apiClient.post<any, AxiosResponse<any>, any>(
-        `/admin/add-program?type=${form?.type}&course_id=${form?.course_id}`,
+        `/programs/add-program?type=${form?.type}&course_id=${form?.course_id}`,
         {
           name: form?.name,
           order: form?.order,

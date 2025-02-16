@@ -1,6 +1,6 @@
 import { apiClient } from "../clientApi";
 import { AxiosResponse } from "axios";
-import { CourseRes } from "../mutations/createCourse";
+import { CourseRes } from "../mutations/create-course";
 
 export type CoursesAdminResponse = {
   pages: number;

@@ -5,7 +5,7 @@ import { Checkbox } from "@gravity-ui/uikit";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactComponent as Cross } from "../img/plus.svg";
 import Cookies from "js-cookie";
-import { useLoginMutation } from "../hooks/mutations/loginUser";
+import { useLoginMutation } from "../hooks/mutations/login-user";
 
 const LoginPage = () => {
   const { t } = useTranslation();

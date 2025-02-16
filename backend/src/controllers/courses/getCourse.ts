@@ -22,12 +22,27 @@ export const getCourse = async (req: Request, res: Response): Promise<any> => {
                         id: true,
                         description: true,
                         name: true,
+                        reward_score: true,
+                        passing_score: true,
                         ProgramsFiles: {
                             select: {
                                 file_name: true,
                                 file_path: true,
                                 file_type: true,
                                 id: true,
+                            },
+                        },
+                        Question: {
+                            select: {
+                                id: true,
+                                question: true,
+                                Answer: {
+                                    select: {
+                                        id: true,
+                                        answer: true,
+                                        is_true: true,
+                                    },
+                                },
                             },
                         },
                     },
@@ -39,11 +54,31 @@ export const getCourse = async (req: Request, res: Response): Promise<any> => {
             ...course,
             course_files: course?.CoursesFiles,
             programs: course?.Programs.map((program) => {
-                const { ProgramsFiles, ...rest } = program;
-                return {
-                    ...rest,
-                    lesson: ProgramsFiles,
-                };
+                if (program?.type === 1) {
+                    const { ProgramsFiles, ...rest } = program;
+                    return {
+                        ...rest,
+                        lesson: ProgramsFiles,
+                    };
+                } else {
+                    const { reward_score, passing_score, Question, ...rest } = program;
+                    return {
+                        ...rest,
+                        test: {
+                            reward_score,
+                            passing_score,
+                            questions: Question.map((q) => ({
+                                id: q.id,
+                                question: q.question,
+                                answers: q.Answer.map((ans) => ({
+                                    id: ans.id,
+                                    answer: ans.answer,
+                                    is_true: ans.is_true,
+                                })),
+                            })),
+                        },
+                    };
+                }
             }),
         };
 

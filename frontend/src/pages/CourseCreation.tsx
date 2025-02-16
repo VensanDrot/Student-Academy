@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Button, Select } from "@gravity-ui/uikit";
+import { Button, Loader, Select } from "@gravity-ui/uikit";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 // import { getAdminCategories } from "../hooks/fetching/getAdminCategories";
 import ModalWindow from "../components/ModalWindow";
@@ -16,10 +16,11 @@ import Toaster from "../components/Toaster";
 import { getCategoriesForCreation } from "../hooks/fetching/getCategories";
 import { ProgramBuild } from "../constants/types";
 import { getCourseDetails } from "../hooks/fetching/getCourses";
-import { CourseRes } from "../hooks/mutations/createCourse";
-import { useDeleteCourseMutation } from "../hooks/mutations/deleteCourse";
+import { CourseRes } from "../hooks/mutations/create-course";
+import { useDeleteCourseMutation } from "../hooks/mutations/delete-course";
 import ProgramComponent from "../components/ProgramComponent";
-import { useCreateLessonMutation } from "../hooks/mutations/create-program";
+import { useCreateLessonMutation, useCreateTestMutation } from "../hooks/mutations/create-program";
+import { useDeleteProgramMutation } from "../hooks/mutations/delete-program";
 
 export interface ToasterReq {
   error: boolean;
@@ -172,32 +173,31 @@ const CourseCreation = () => {
   });
 
   // //delete Program Mutation
-  // const deleteProgramMutation = useDeleteProgramMutation({
-  //   onSuccess: (data) => {
-  //     queryClient.setQueryData(["courseRetrieve", searchParams?.get("id")], (old: CourseRes) => {
-  //       const updated = old
-  //         ? {
-  //             ...old,
-  //             data: {
-  //               ...old?.data,
-  //               programs: old?.data?.programs?.filter(
-  //                 (program: any) => program?.id !== deleteProgramObject?.id && program
-  //               ),
-  //             },
-  //           }
-  //         : old;
+  const deleteProgramMutation = useDeleteProgramMutation({
+    onSuccess: (data) => {
+      queryClient.setQueryData(["courseRetrieve", searchParams?.get("id")], (old: CourseRes) => {
+        const updated = old
+          ? {
+              ...old,
+              data: {
+                ...old?.data,
+                programs: old?.data?.programs?.filter(
+                  (program: any) => program?.id !== deleteProgramObject?.id && program
+                ),
+              },
+            }
+          : old;
 
-  //       setCourseAndFiles(updated);
-  //       return updated;
-  //     });
-  //     setCurrentProgram(0);
-  //     setPrograms(programs?.filter((program: ProgramBuild) => program?.id !== deleteProgramObject?.id && program));
-  //   },
-  //   onError: (data) => {
-  //     console.log(data);
-  //     setCourseAndFiles(courseRetrieve);
-  //   },
-  // });
+        setCourseAndFiles(updated);
+        return updated;
+      });
+      setCurrentProgram(0);
+    },
+    onError: (data) => {
+      console.log(data);
+      setCourseAndFiles(courseRetrieve);
+    },
+  });
 
   //create Lesson Mutation
   const createProgramLessonMutation = useCreateLessonMutation({
@@ -224,6 +224,12 @@ const CourseCreation = () => {
     onError: (data) => {
       console.log(data);
       setLoadingBar((prev) => ({ ...prev, ...data, active: false }));
+      setToaster({
+        header: t("err_head"),
+        line: data?.response?.data?.message || t("def_err"),
+        open: true,
+        error: true,
+      });
     },
     onProgress: (data) => {
       !loadingBar?.active && setLoadingBar((prev) => ({ ...prev, ...data, active: true }));
@@ -266,34 +272,45 @@ const CourseCreation = () => {
   //   },
   // });
 
-  // //create Test Mutation
-  // const createTestLessonMutation = useCreateTestMutation({
-  //   onSuccess: (data) => {
-  //     setPrograms((prev) =>
-  //       prev?.map((program, index) => (index === currentProgram ? { ...program, id: data?.data?.id } : program))
-  //     );
-  //     setLoadingBar((prev) => ({ ...prev, ...data, active: false }));
+  console.log(programs);
 
-  //     queryClient.setQueryData(["courseRetrieve", searchParams?.get("id")], (old: CourseRes) => {
-  //       const updated = old
-  //         ? {
-  //             ...old,
-  //             data: {
-  //               ...old?.data,
-  //               programs: [...(old?.data?.programs || []), data?.data],
-  //             },
-  //           }
-  //         : old;
+  //create Test Mutation
+  const createTestLessonMutation = useCreateTestMutation({
+    onSuccess: (data) => {
+      console.log(data);
+      setPrograms((prev) =>
+        prev?.map((program, index) =>
+          index === currentProgram ? { ...program, id: data?.data?.id, ...data?.data } : program
+        )
+      );
+      setLoadingBar((prev) => ({ ...prev, active: false }));
 
-  //       setCourseAndFiles(updated);
-  //       return updated;
-  //     });
-  //   },
-  //   onError: (data) => {
-  //     console.log(data);
-  //     setLoadingBar((prev) => ({ ...prev, ...data, active: false }));
-  //   },
-  // });
+      queryClient.setQueryData(["courseRetrieve", searchParams?.get("id")], (old: CourseRes) => {
+        const updated = old
+          ? {
+              ...old,
+              data: {
+                ...old?.data,
+                programs: [...(old?.data?.programs || []), data?.data],
+              },
+            }
+          : old;
+
+        setCourseAndFiles(updated);
+        return updated;
+      });
+    },
+    onError: (data) => {
+      console.log(data);
+      setToaster({
+        header: t("err_head"),
+        line: data?.response?.data?.message || t("def_err"),
+        open: true,
+        error: true,
+      });
+      setLoadingBar((prev) => ({ ...prev, ...data, active: false }));
+    },
+  });
 
   // // update test mutation
   // const updateTestLessonMutation = useUpdateTestMutation({
@@ -335,7 +352,7 @@ const CourseCreation = () => {
   const deleteProgramFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // if (deleteProgramObject?.id) deleteProgramMutation.mutate({ id: deleteProgramObject?.id });
+    if (deleteProgramObject?.id) deleteProgramMutation.mutate({ id: deleteProgramObject?.id });
 
     setPrograms(programs?.filter((program: ProgramBuild) => program?.order !== deleteProgramObject?.order && program));
     setDeleteProgram(false);
@@ -558,103 +575,111 @@ const CourseCreation = () => {
           </div>
         </div>
 
-        {tab === 1 && (
-          <CourseDescriptionComponent
-            files={files}
-            course={course}
-            courseRetrieve={courseRetrieve ? courseRetrieve : ({} as CourseRes)}
-            setCourseAndFiles={setCourseAndFiles}
-            categories={categories?.data || []}
-            setCourse={setCourse}
-            setDeleteCourse={setDeleteCourse}
-            setLoadingBar={setLoadingBar}
-            setFiles={setFiles}
-            loadingBar={loadingBar}
-            setToaster={setToaster}
-          />
-        )}
-
-        {tab === 2 && (
-          <div className="flex w-full h-full gap-8 relative">
-            {programs?.length > 0 && programs[currentProgram] ? (
-              <ProgramComponent
+        {isLoadingCourse ? (
+          <Loader className="self-center" size="l" />
+        ) : (
+          <>
+            {tab === 1 && (
+              <CourseDescriptionComponent
+                files={files}
+                course={course}
+                courseRetrieve={courseRetrieve ? courseRetrieve : ({} as CourseRes)}
+                setCourseAndFiles={setCourseAndFiles}
+                categories={categories?.data || []}
+                setCourse={setCourse}
+                setDeleteCourse={setDeleteCourse}
+                setLoadingBar={setLoadingBar}
+                setFiles={setFiles}
                 loadingBar={loadingBar}
-                topText={`${selectTextToDisplay(programs[currentProgram]?.type)} ${programs[currentProgram]?.order}`}
-                program={programs[currentProgram]}
-                type={programs[currentProgram]?.type}
-                courseId={course?.id}
-                programs={programs}
-                setPrograms={setPrograms}
-                courseRetrieve={courseRetrieve || ({} as CourseRes)}
-                currentProgram={currentProgram}
-                // createExamLessonMutation={createExamLessonMutation}
-                // updateProgramLessonMutation={updateProgramLessonMutation}
-                // createTestLessonMutation={createTestLessonMutation}
-                // updateTestLessonMutation={updateTestLessonMutation}
-                createProgramLessonMutation={createProgramLessonMutation}
-                // updateExamLessonMutation={updateExamLessonMutation}
+                setToaster={setToaster}
               />
-            ) : (
-              <div className="w-full max-w-[850px] h-full" />
             )}
-            <div className="flex flex-col gap-2 w-full max-w-[350px]">
-              {programs?.map((program, index) => handleDisplayPrograms(program?.type, program, index))}
 
-              <div className={`flex gap-2 items-center bg-white p-5 rounded-3xl h-[82px]`}>
-                <Select
-                  id="category"
-                  size="xl"
-                  open={open}
-                  className="w-full h-full border-0 [&>div>button]:before:border-0 bg-primarylight rounded-xl"
-                  popupClassName="mt-4 flex flex-col gap-2 !rounded-2xl"
-                  renderControl={() => {
-                    return (
-                      <button
-                        onClick={() => setOpen(!open)}
-                        className="w-full h-full text-ft font-normal flex justify-center items-center gap-2"
-                      >
-                        {t("course.create_course")}
-                        <Arrow className="fill-black rotate-90" />
-                      </button>
-                    );
-                  }}
-                  renderPopup={() => {
-                    return (
-                      <>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            createProgram(1);
-                            setOpen(false);
-                          }}
-                          className="w-full px-4 py-2 h-[57px] flex gap-2 items-center hover:bg-primarylight"
-                        >
-                          <div className="bg-[#0000000D] rounded-full h-10 w-10 flex items-center justify-center">
-                            <Book className="fill-textblack h-4 w-4" />
-                          </div>
-                          <p className="font-semibold text-st">{t("course.lesson")}</p>
-                        </button>
+            {tab === 2 && (
+              <div className="flex w-full h-full gap-8 relative">
+                {programs?.length > 0 && programs[currentProgram] ? (
+                  <ProgramComponent
+                    loadingBar={loadingBar}
+                    topText={`${selectTextToDisplay(programs[currentProgram]?.type)} ${
+                      programs[currentProgram]?.order
+                    }`}
+                    program={programs[currentProgram]}
+                    type={programs[currentProgram]?.type}
+                    courseId={course?.id}
+                    programs={programs}
+                    setPrograms={setPrograms}
+                    courseRetrieve={courseRetrieve || ({} as CourseRes)}
+                    currentProgram={currentProgram}
+                    // createExamLessonMutation={createExamLessonMutation}
+                    // updateProgramLessonMutation={updateProgramLessonMutation}
+                    createTestLessonMutation={createTestLessonMutation}
+                    // updateTestLessonMutation={updateTestLessonMutation}
+                    createProgramLessonMutation={createProgramLessonMutation}
+                    // updateExamLessonMutation={updateExamLessonMutation}
+                  />
+                ) : (
+                  <div className="w-full max-w-[850px] h-full" />
+                )}
+                <div className="flex flex-col gap-2 w-full max-w-[350px]">
+                  {programs?.map((program, index) => handleDisplayPrograms(program?.type, program, index))}
 
-                        <button
-                          type="button"
-                          onClick={() => {
-                            createProgram(2);
-                            setOpen(false);
-                          }}
-                          className="w-full px-4 py-2 h-[57px] flex gap-2 items-center hover:bg-primarylight"
-                        >
-                          <div className="bg-[#30AA6E] rounded-full h-10 w-10 flex items-center justify-center">
-                            <Save className="fill-white h-3.5 w-3.5" />
-                          </div>
-                          <p className="font-semibold text-st">{t("course.test")}</p>
-                        </button>
-                      </>
-                    );
-                  }}
-                />
+                  <div className={`flex gap-2 items-center bg-white p-5 rounded-3xl h-[82px]`}>
+                    <Select
+                      id="category"
+                      size="xl"
+                      open={open}
+                      className="w-full h-full border-0 [&>div>button]:before:border-0 bg-primarylight rounded-xl"
+                      popupClassName="mt-4 flex flex-col gap-2 !rounded-2xl"
+                      renderControl={() => {
+                        return (
+                          <button
+                            onClick={() => setOpen(!open)}
+                            className="w-full h-full text-ft font-normal flex justify-center items-center gap-2"
+                          >
+                            {t("course.create_course")}
+                            <Arrow className="fill-black rotate-90" />
+                          </button>
+                        );
+                      }}
+                      renderPopup={() => {
+                        return (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                createProgram(1);
+                                setOpen(false);
+                              }}
+                              className="w-full px-4 py-2 h-[57px] flex gap-2 items-center hover:bg-primarylight"
+                            >
+                              <div className="bg-[#0000000D] rounded-full h-10 w-10 flex items-center justify-center">
+                                <Book className="fill-textblack h-4 w-4" />
+                              </div>
+                              <p className="font-semibold text-st">{t("course.lesson")}</p>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                createProgram(2);
+                                setOpen(false);
+                              }}
+                              className="w-full px-4 py-2 h-[57px] flex gap-2 items-center hover:bg-primarylight"
+                            >
+                              <div className="bg-[#30AA6E] rounded-full h-10 w-10 flex items-center justify-center">
+                                <Save className="fill-white h-3.5 w-3.5" />
+                              </div>
+                              <p className="font-semibold text-st">{t("course.test")}</p>
+                            </button>
+                          </>
+                        );
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            )}
+          </>
         )}
       </div>
     </>
