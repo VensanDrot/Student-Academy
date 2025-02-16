@@ -41,7 +41,7 @@
     "code_err": "Enter code",
     "name_err": "Enter first name",
     "last_err": "Enter last name",
-    "public": "By continuing to use the JOWI Academy platform, you automatically agree to the rules",
+    "public": "By continuing to use the ADV Academy platform, you automatically agree to the rules",
     "sub_pub": "Public offer",
     "about_com": "About the company",
     "com_name": "Company name",
@@ -273,7 +273,8 @@
     "retry": "Try again",
     "tocom": "To complete card linking, go to the OCTO website by clicking the button below",
     "goto": "Go to",
-    "jowi": "JOWi Balance"
+    "adv": "ADV Balance",
+    "card_binded": "Card is successfully binded"
   },
   "active": {
     "passed": "workers have completed the course",

@@ -44,7 +44,8 @@ const getCreatedCourses = async (req: Request, res: Response): Promise<any> => {
 
         const rawQuery = `
       SELECT id, name, description, activated as "state", cost, "created_at",
-      (${relevanceSQL}) AS relevance, (SELECT CAST(COUNT(*) AS int) FROM "Subscriptions" WHERE "Subscriptions"."course_id" = "Courses"."id") AS users,
+      (${relevanceSQL}) AS relevance, (SELECT CAST(COUNT(*) AS int) FROM "Subscriptions" WHERE "Subscriptions"."course_id" = "Courses"."id") AS users, 
+      (Select name from "Categories" where "Categories".id = "Courses".id ) as category,
   (
       SELECT file_name 
       FROM "CoursesFiles" 
