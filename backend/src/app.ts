@@ -13,6 +13,7 @@ import coursesRouter from "./routes/courses";
 import { getVideoChunk } from "./controllers/files/chunks";
 import filesRouter from "./routes/files";
 import paymentRouter from "./routes/payments";
+import programRoutes from "./routes/programs";
 
 var jsonParser = bodyParser.json();
 const prisma = new PrismaClient();
@@ -38,6 +39,7 @@ app.use("/", filesRouter);
 app.use("/course", authenticateToken, coursesRouter);
 app.use("/user", authenticateToken, categoriesRouter);
 app.use("/payments", authenticateToken, paymentRouter);
+app.use("/programs", authenticateToken, programRoutes);
 
 app.get("/actions/secure-data", authenticateToken, (req: Request, res: Response) => {
     res.json({ message: "This is a protected route" });

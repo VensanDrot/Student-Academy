@@ -15,14 +15,40 @@ export const getCourse = async (req: Request, res: Response): Promise<any> => {
             },
             include: {
                 CoursesFiles: true,
+                Programs: {
+                    select: {
+                        type: true,
+                        order: true,
+                        id: true,
+                        description: true,
+                        name: true,
+                        ProgramsFiles: {
+                            select: {
+                                file_name: true,
+                                file_path: true,
+                                file_type: true,
+                                id: true,
+                            },
+                        },
+                    },
+                },
             },
         });
 
         const formattedCourse = {
             ...course,
             course_files: course?.CoursesFiles,
+            programs: course?.Programs.map((program) => {
+                const { ProgramsFiles, ...rest } = program;
+                return {
+                    ...rest,
+                    lesson: ProgramsFiles,
+                };
+            }),
         };
+
         delete formattedCourse.CoursesFiles;
+        delete formattedCourse.Programs;
 
         return res.status(200).json({ message: "Success", data: formattedCourse });
     } catch (error: any) {

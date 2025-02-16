@@ -7,17 +7,18 @@ import { CourseOrgActive } from "../constants/types";
 
 import "swiper/css";
 import "swiper/css/pagination";
-import { GetCorrectedLink, GetCorrectedLinkImg } from "../utils/getCorrectedLink";
+import { GetCorrectedLinkImg } from "../utils/getCorrectedLink";
 
 interface IProps {
   index: number | string;
   onDetails: () => void;
   onBuy?: () => void;
   text?: React.ReactNode;
+  buyButton?: string;
   course: CourseOrgActive | CourseOrgActive;
 }
 
-const CoursePreviewComponent: React.FC<IProps> = ({ index, text, course, onDetails, onBuy }) => {
+const CoursePreviewComponent: React.FC<IProps> = ({ index, text, course, buyButton, onDetails, onBuy }) => {
   const { t } = useTranslation();
 
   return (
@@ -64,7 +65,7 @@ const CoursePreviewComponent: React.FC<IProps> = ({ index, text, course, onDetai
         </Button>
         {onBuy && (
           <Button type="button" onClick={onBuy} className="w-full" view="action" size="xl">
-            {t("bus_course.buy")}
+            {buyButton || t("bus_course.buy")}
           </Button>
         )}
       </div>

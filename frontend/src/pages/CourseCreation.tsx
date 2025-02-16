@@ -7,7 +7,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ModalWindow from "../components/ModalWindow";
 // import { useDeleteCourseMutation } from "../hooks/mutations/delete-course-admin";
 import CourseDescriptionComponent from "../components/CourseDescriptionComponent";
-
+import { ReactComponent as Book } from "../img/book.svg";
 import { ReactComponent as Bin } from "../img/bin.svg";
 import { ReactComponent as Star } from "../img/star.svg";
 import { ReactComponent as Save } from "../img/save.svg";
@@ -18,6 +18,8 @@ import { ProgramBuild } from "../constants/types";
 import { getCourseDetails } from "../hooks/fetching/getCourses";
 import { CourseRes } from "../hooks/mutations/createCourse";
 import { useDeleteCourseMutation } from "../hooks/mutations/deleteCourse";
+import ProgramComponent from "../components/ProgramComponent";
+import { useCreateLessonMutation } from "../hooks/mutations/create-program";
 
 export interface ToasterReq {
   error: boolean;
@@ -104,64 +106,58 @@ const CourseCreation = () => {
         }))
       );
 
-    // if (data?.data?.programs) {
-    //   setPrograms(
-    //     data?.data?.programs?.map(
-    //       (program: any) =>
-    //         ({
-    //           id: program?.id,
-    //           name: program?.name,
-    //           description: program?.description,
-    //           order: program?.order,
-    //           files: program?.lesson?.map((file: any) => ({
-    //             path: file?.file_path,
-    //             preview: file?.file_path,
-    //             type: file?.file_type,
-    //             id: file?.id,
-    //           })),
-    //           type: program?.type,
-    //           questions: program?.test?.questions?.map((question: any) => ({
-    //             id: question?.id,
-    //             question: question?.question,
-    //             answers: question?.answers?.map((answer: any) => ({
-    //               id: answer?.id,
-    //               answer: answer?.answer,
-    //               isTrue: answer?.is_true,
-    //             })),
-    //           })),
-    //           criteria: program?.exam?.criteria?.map((criteria: any) => ({
-    //             id: criteria?.id,
-    //             name: criteria?.name,
-    //             description: criteria?.description,
-    //           })),
-    //           passingScore: program?.test?.passing_score,
-    //           rewardScore: program?.test?.reward_score,
-    //           errors: {
-    //             name: "",
-    //             description: "",
-    //             files: "",
-    //             rewardScore: "",
-    //             passingScore: "",
-    //             questions: program?.test?.questions?.map((question: any) => ({
-    //               question: "",
-    //               answers: Array.from({ length: question?.answers?.length || 0 }, () => ({
-    //                 answer: "",
-    //                 isTrue: false,
-    //               })),
-    //             })),
-    //             criteria: Array.from({ length: program?.criteria?.length || 0 }, () => ({ name: "", description: "" })),
-    //           },
-    //         } as ProgramBuild)
-    //     )
-    //   );
-    //   currentProgram === -1 && setCurrentProgram(0);
-    // }
+    if (data?.data?.programs) {
+      setPrograms(
+        data?.data?.programs?.map(
+          (program: any) =>
+            ({
+              id: program?.id,
+              name: program?.name,
+              description: program?.description,
+              order: program?.order,
+              files: program?.lesson?.map((file: any) => ({
+                path: file?.file_path,
+                preview: file?.file_path,
+                type: file?.file_type,
+                id: file?.id,
+              })),
+              type: program?.type,
+              questions: program?.test?.questions?.map((question: any) => ({
+                id: question?.id,
+                question: question?.question,
+                answers: question?.answers?.map((answer: any) => ({
+                  id: answer?.id,
+                  answer: answer?.answer,
+                  isTrue: answer?.is_true,
+                })),
+              })),
+              passingScore: program?.test?.passing_score,
+              rewardScore: program?.test?.reward_score,
+              errors: {
+                name: "",
+                description: "",
+                files: "",
+                rewardScore: "",
+                passingScore: "",
+                questions: program?.test?.questions?.map((question: any) => ({
+                  question: "",
+                  answers: Array.from({ length: question?.answers?.length || 0 }, () => ({
+                    answer: "",
+                    isTrue: false,
+                  })),
+                })),
+              },
+            } as ProgramBuild)
+        )
+      );
+      currentProgram === -1 && setCurrentProgram(0);
+    }
   };
 
-  // useEffect(() => {
-  //   if (courseRetrieve && !isLoadingCourse) setCourseAndFiles(courseRetrieve);
-  //   if (programs?.length < 1) createProgram(1);
-  // }, [courseRetrieve, isLoadingCourse]);
+  useEffect(() => {
+    if (courseRetrieve && !isLoadingCourse) setCourseAndFiles(courseRetrieve);
+    if (programs?.length < 1) createProgram(1);
+  }, [courseRetrieve, isLoadingCourse]);
 
   // delete Course Mutation
   const deleteCourseMutation = useDeleteCourseMutation({
@@ -203,37 +199,37 @@ const CourseCreation = () => {
   //   },
   // });
 
-  // //create Lesson Mutation
-  // const createProgramLessonMutation = useCreateLessonMutation({
-  //   onSuccess: (data) => {
-  //     setPrograms((prev) =>
-  //       prev?.map((program, index) => (index === currentProgram ? { ...program, id: data?.data?.id } : program))
-  //     );
-  //     setLoadingBar((prev) => ({ ...prev, ...data, active: false }));
+  //create Lesson Mutation
+  const createProgramLessonMutation = useCreateLessonMutation({
+    onSuccess: (data) => {
+      setPrograms((prev) =>
+        prev?.map((program, index) => (index === currentProgram ? { ...program, id: data?.data?.id } : program))
+      );
+      setLoadingBar((prev) => ({ ...prev, ...data, active: false }));
 
-  //     queryClient.setQueryData(["courseRetrieve", searchParams?.get("id")], (old: CourseRes) => {
-  //       const updated = old
-  //         ? {
-  //             ...old,
-  //             data: {
-  //               ...old?.data,
-  //               programs: [...(old?.data?.programs || []), data?.data],
-  //             },
-  //           }
-  //         : old;
-  //       setCourseAndFiles(updated);
-  //       return updated;
-  //     });
-  //   },
-  //   onError: (data) => {
-  //     console.log(data);
-  //     setLoadingBar((prev) => ({ ...prev, ...data, active: false }));
-  //   },
-  //   onProgress: (data) => {
-  //     !loadingBar?.active && setLoadingBar((prev) => ({ ...prev, ...data, active: true }));
-  //     setLoadingBar((prev) => ({ ...prev, ...data }));
-  //   },
-  // });
+      queryClient.setQueryData(["courseRetrieve", searchParams?.get("id")], (old: CourseRes) => {
+        const updated = old
+          ? {
+              ...old,
+              data: {
+                ...old?.data,
+                programs: [...(old?.data?.programs || []), data?.data],
+              },
+            }
+          : old;
+        setCourseAndFiles(updated);
+        return updated;
+      });
+    },
+    onError: (data) => {
+      console.log(data);
+      setLoadingBar((prev) => ({ ...prev, ...data, active: false }));
+    },
+    onProgress: (data) => {
+      !loadingBar?.active && setLoadingBar((prev) => ({ ...prev, ...data, active: true }));
+      setLoadingBar((prev) => ({ ...prev, ...data }));
+    },
+  });
 
   // const updateProgramLessonMutation = useUpdateLessonMutation({
   //   onSuccess: (data) => {
@@ -343,6 +339,7 @@ const CourseCreation = () => {
 
     setPrograms(programs?.filter((program: ProgramBuild) => program?.order !== deleteProgramObject?.order && program));
     setDeleteProgram(false);
+    setCurrentProgram(0);
   };
 
   const selectTextToDisplay = (type: number) => {
@@ -558,13 +555,6 @@ const CourseCreation = () => {
             >
               {t("course.program")}
             </button>
-            {/* <button
-              type="button"
-              onClick={() => setTab(3)}
-              className={`${tab === 3 && active} text-tr rounded-md p-2 font-normal text-textlightgrey`}
-            >
-              {t("course.notes")}
-            </button> */}
           </div>
         </div>
 
@@ -584,7 +574,7 @@ const CourseCreation = () => {
           />
         )}
 
-        {/* {tab === 2 && (
+        {tab === 2 && (
           <div className="flex w-full h-full gap-8 relative">
             {programs?.length > 0 && programs[currentProgram] ? (
               <ProgramComponent
@@ -597,12 +587,12 @@ const CourseCreation = () => {
                 setPrograms={setPrograms}
                 courseRetrieve={courseRetrieve || ({} as CourseRes)}
                 currentProgram={currentProgram}
-                createExamLessonMutation={createExamLessonMutation}
-                updateProgramLessonMutation={updateProgramLessonMutation}
-                createTestLessonMutation={createTestLessonMutation}
-                updateTestLessonMutation={updateTestLessonMutation}
+                // createExamLessonMutation={createExamLessonMutation}
+                // updateProgramLessonMutation={updateProgramLessonMutation}
+                // createTestLessonMutation={createTestLessonMutation}
+                // updateTestLessonMutation={updateTestLessonMutation}
                 createProgramLessonMutation={createProgramLessonMutation}
-                updateExamLessonMutation={updateExamLessonMutation}
+                // updateExamLessonMutation={updateExamLessonMutation}
               />
             ) : (
               <div className="w-full max-w-[850px] h-full" />
@@ -658,20 +648,6 @@ const CourseCreation = () => {
                           </div>
                           <p className="font-semibold text-st">{t("course.test")}</p>
                         </button>
-
-                        <button
-                          type="button"
-                          onClick={() => {
-                            createProgram(3);
-                            setOpen(false);
-                          }}
-                          className="w-full px-4 py-2 h-[57px] flex gap-2 items-center hover:bg-primarylight"
-                        >
-                          <div className="bg-lightorange rounded-full h-10 w-10 flex items-center justify-center">
-                            <Star className="fill-textblack h-3.5 w-3.5" />
-                          </div>
-                          <p className="font-semibold text-st">{t("course.exam")}</p>
-                        </button>
                       </>
                     );
                   }}
@@ -679,7 +655,7 @@ const CourseCreation = () => {
               </div>
             </div>
           </div>
-        )} */}
+        )}
       </div>
     </>
   );

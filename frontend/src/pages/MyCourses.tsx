@@ -100,13 +100,6 @@ const MyCourses = () => {
                     : `coursePreview?id=${course?.id}&name=${course?.name}`
                 );
               }}
-              onBuy={
-                course?.purchased
-                  ? undefined
-                  : () => {
-                      navigate(`payment?id=${course?.id}&name=${course?.name}`);
-                    }
-              }
             />
           ))}
         </div>

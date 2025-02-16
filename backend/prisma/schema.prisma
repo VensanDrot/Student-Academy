@@ -13,7 +13,7 @@ datasource db {
 model Users {
   id             Int              @id @default(autoincrement())
   created_at     DateTime         @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime?        @default(now()) @db.Timestamp(6)
+  updated_at     DateTime?        @updatedAt @db.Timestamptz(6)
   firstname      String?          @default("")
   lastname       String?          @default("")
   email          String?          @unique @default("")
@@ -38,7 +38,7 @@ model Categories {
 model Courses {
   id            Int             @id @default(autoincrement())
   created_at    DateTime        @default(now()) @db.Timestamptz(6)
-  updated_at    DateTime?       @default(now()) @db.Timestamp(6)
+  updated_at    DateTime?       @updatedAt @db.Timestamptz(6)
   name          String?         @default("")
   description   String?         @default("")
   cost          Float?          @default(0)
@@ -48,6 +48,7 @@ model Courses {
   Users         Users?          @relation(fields: [author], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Categories    Categories?     @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
   CoursesFiles  CoursesFiles[]
+  Programs      Programs[]
   Subscriptions Subscriptions[]
 }
 
@@ -86,4 +87,55 @@ model PaymentMethods {
   user_id      Int?
   exparation   String?  @default("")
   Users        Users?   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Programs {
+  id            Int             @id @default(autoincrement())
+  created_at    DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime?       @updatedAt @db.Timestamptz(6)
+  course_id     Int?
+  type          Int?            @db.SmallInt
+  order         Int?
+  time          String?         @default("")
+  name          String?         @default("")
+  description   String?         @default("")
+  reward_score  Float?
+  passing_score Float?
+  Courses       Courses?        @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ProgramsFiles ProgramsFiles[]
+  Question      Question[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model ProgramsFiles {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  program_id Int?
+  file_type  String?   @default("")
+  file_name  String?   @default("")
+  file_path  String?   @default("")
+  Programs   Programs? @relation(fields: [program_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Answer {
+  id          Int       @id @default(autoincrement())
+  created_at  DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime? @updatedAt @db.Timestamptz(6)
+  question_id Int?
+  answer      String?   @default("")
+  is_true     Boolean?
+  Question    Question? @relation(fields: [question_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Question {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @updatedAt @db.Timestamptz(6)
+  program_id Int?
+  question   String?   @default("")
+  Answer     Answer[]
+  Programs   Programs? @relation(fields: [program_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
