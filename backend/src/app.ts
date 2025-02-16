@@ -27,7 +27,7 @@ app.use(express.json()); //  Parse JSON requests
 app.use(express.urlencoded({ extended: true })); //  Parse URL-encoded requests
 app.use(
     cors({
-        origin: ["http://localhost:3000"],
+        origin: ["*", "https://avd.vensandrot.com/"],
         methods: ["POST", "GET", "DELETE", "PATCH", "PUT"],
         credentials: true,
     })
