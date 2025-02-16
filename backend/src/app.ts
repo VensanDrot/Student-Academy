@@ -25,12 +25,7 @@ app.use(express.json()); //  Parse JSON requests
 app.use(express.urlencoded({ extended: true })); //  Parse URL-encoded requests
 app.use(
     cors({
-        origin: [
-            "*",
-            "https://avd.vensandrot.com/",
-            "https://bc-hackathon-git-main-vensan-drots-projects.vercel.app/",
-            "https://bc-hackathon-fcqcr6hyk-vensan-drots-projects.vercel.app/",
-        ],
+        origin: "*",
         methods: ["POST", "GET", "DELETE", "PATCH", "PUT"],
         credentials: true,
     })
@@ -53,15 +48,5 @@ app.use((req: Request, res: Response) => {
         message: `Method ${req.method} not allowed on ${req.originalUrl}`,
     });
 });
-
-// fs.access("../image", function (error) {
-//   if (error) {
-//     fs.mkdir(path.join(__dirname, "../image"), (err) => {
-//       if (err) {
-//         console.log(err);
-//       }
-//     });
-//   }
-// });
 
 app.listen(3001, () => console.log("listening on port 3001"));
