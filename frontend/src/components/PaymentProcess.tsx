@@ -5,15 +5,13 @@ import { ReactComponent as Arrow } from "../img/toright.svg";
 import { ReactComponent as Card } from "../img/card.svg";
 import { ReactComponent as Plus } from "../img/plus.svg";
 import { ReactComponent as ADV } from "../img/ADV.svg";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { ReactComponent as Dot } from "../img/point.svg";
-// import { getPaymentPreviewBus } from "../hooks/fetching/getPaymentPreviewBus";
-// import { useCreateSubBusMutation, useUpdateSubscribersBusMutation } from "../hooks/mutations/update-subscription-bus";
 import { CardIcon } from "../utils/CardIcons";
 import { ReactComponent as Fail } from "../img/failicon.svg";
 import ModalWindow from "./ModalWindow";
-import { useSearchParams } from "react-router-dom";
 import { getAllCards } from "../hooks/fetching/getAllCards";
+import { useProcessPayment } from "../hooks/mutations/processPayment";
 
 interface IProps {
   courseId: string;
@@ -43,7 +41,6 @@ const PaymentProcess: React.FC<IProps> = ({ courseId, active, cardId, selectCard
     enabled: !active,
   });
 
-  // not sure if I need it, waiting for cards to check it
   useEffect(() => {
     setSelectedCard((prev) => ({
       ...prev,
@@ -51,23 +48,22 @@ const PaymentProcess: React.FC<IProps> = ({ courseId, active, cardId, selectCard
     }));
   }, [cardId]);
 
-  // const busSubmitPayment = useCreateSubBusMutation({
-  //   onSuccess: (data) => {
-  //     setIsDone(true);
-  //     setIsOpenModal(false);
-  //   },
-  //   onError: (error) => {
-  //     console.log(error);
-  //     setIsOpenModal(true);
-  //   },
-  // });
+  const submitPayment = useProcessPayment({
+    onSuccess: (data) => {
+      setIsDone(true);
+      setIsOpenModal(false);
+    },
+    onError: (error) => {
+      console.log(error);
+      setIsOpenModal(true);
+    },
+  });
 
   const proceedPayment = () => {
-    // busSubmitPayment.mutate({
-    //   course_id: courseId,
-    //   card_id: selectedCard?.id,
-    //   subscribers: users,
-    // });
+    submitPayment.mutate({
+      course_id: courseId,
+      card_id: selectedCard?.id,
+    });
   };
 
   return (

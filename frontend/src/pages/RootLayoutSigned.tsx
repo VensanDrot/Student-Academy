@@ -20,12 +20,7 @@ const RootLayoutSigned = () => {
 
     if (refreshToken && !accessToken) refreshTokenMutation.mutate({ refreshToken });
 
-    if (
-      !accessToken &&
-      location.pathname !== "/registration" &&
-      location.pathname !== "/recoverpassword" &&
-      location.pathname !== "/login"
-    )
+    if (!accessToken && location.pathname !== "/registration" && location.pathname !== "/login")
       navigate(`/login?backto=${searchParams.get("backto") || location.pathname}`);
   }, [navigate, location.pathname]);
 

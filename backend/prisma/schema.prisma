@@ -20,7 +20,7 @@ model Users {
   phone_number   String?          @default("")
   password       String?          @default("")
   user_type      Int?
-  balance        Float?
+  balance        Float?           @default(0)
   Courses        Courses[]
   PaymentMethods PaymentMethods[]
   Subscriptions  Subscriptions[]
@@ -41,7 +41,7 @@ model Courses {
   updated_at    DateTime?       @default(now()) @db.Timestamp(6)
   name          String?         @default("")
   description   String?         @default("")
-  cost          Float?
+  cost          Float?          @default(0)
   category      Int?
   activated     Boolean?        @default(true)
   author        Int?
