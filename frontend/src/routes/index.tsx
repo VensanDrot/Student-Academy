@@ -13,6 +13,7 @@ import MyCourses from "../pages/MyCourses";
 import CourseDetailsCl from "../pages/CourseDetails";
 import TakeLesson from "../pages/TakeLesson";
 import CelebrationPage from "../pages/CelebrationPage";
+import CoursePreview from "../pages/CoursePreview";
 
 const Routes = () => {
   const router = createBrowserRouter([
@@ -26,6 +27,7 @@ const Routes = () => {
         { path: "/mycourses", element: <MyCourses /> },
         { path: "/takelesson", element: <TakeLesson /> },
         { path: "/createcourse", element: <CourseCreation /> },
+        { path: "/coursepreview", element: <CoursePreview /> },
         { path: "/coursedetails", element: <CourseDetailsCl /> },
         { path: "/completedtest", element: <CelebrationPage /> },
         { path: "/uploadedcourses", element: <CreatedCourses /> },

@@ -7,6 +7,7 @@
   "out": "out of",
   "no_data": "No data",
   "less_up": "Lesson saved",
+  "watch": "Start the course",
   "prog_up": "Course saved",
   "log_reg": {
     "login": "Login",
@@ -225,7 +226,7 @@
     "description": "Description",
     "content": "Course content",
     "price": "Course price",
-    "per_user": "per user per month",
+    "per_user": "",
     "details_course": "Course details",
     "lesson": "lessons",
     "takes": "Takes",

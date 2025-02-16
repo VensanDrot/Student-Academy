@@ -93,11 +93,7 @@ const HomePage = () => {
               index={index}
               course={course as any}
               onDetails={() => {
-                navigate(
-                  course?.purchased
-                    ? `manageCourse?id=${course?.id}&name=${course?.name}`
-                    : `coursePreview?id=${course?.id}&name=${course?.name}`
-                );
+                navigate(`coursePreview?id=${course?.id}&name=${course?.name}`);
               }}
               onBuy={
                 course?.purchased

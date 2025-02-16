@@ -96,6 +96,37 @@ export type ProgramBuildErrors = {
   questions: ProgramQuestion[];
 };
 
+export type CurrentCourse = {
+  id: number;
+  sub_id: number;
+  name: string;
+  description: string;
+  category: string;
+  cost: number;
+  purchased: boolean;
+  lesson_count: number;
+  test_count: number;
+  currency: string;
+  course_files: DefaultFile[];
+  programs: Program[];
+};
+
+export interface Program {
+  id: number;
+  name: string;
+  order: number;
+  type: number;
+  time: string | number;
+  reward_score: number;
+  passing_score: number;
+  questions: ProgramQuestion[];
+  lesson: {
+    id: number;
+    description: string;
+    lesson_files: DefaultFile[];
+  };
+}
+
 export interface DefaultFile {
   id: number;
   file_type: string;
