@@ -3,11 +3,11 @@
     "target": "ES2020",
     "module": "CommonJS",
     "outDir": "./dist",
-    "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    // ... any additional strictness flags
   },
-  "include": ["src/**/*", "src/app.ts"]
+  "include": ["src/**/*.ts", "**/*.ts"]  // or ["**/*.ts"] if you want to compile from multiple folders
 }
