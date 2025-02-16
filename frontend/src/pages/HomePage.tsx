@@ -26,7 +26,6 @@ const HomePage = () => {
   const { data: retrievedCourses, isLoading: isLoadingCourses } = useQuery({
     queryKey: ["retrievedCourses", page, useDebouncedValue(search, 400), active],
     queryFn: () => getAllCourses(page, 6, search, active),
-    staleTime: Infinity,
     retry: 2,
   });
 

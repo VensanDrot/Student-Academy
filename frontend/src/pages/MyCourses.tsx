@@ -26,7 +26,6 @@ const MyCourses = () => {
   const { data: myPurchasedCourses, isLoading: isLoadingCourses } = useQuery({
     queryKey: ["myPurchasedCourses", page, useDebouncedValue(search, 400), active],
     queryFn: () => getPurchasedCourses(page, 6, search, active),
-    staleTime: Infinity,
     retry: 2,
   });
 
