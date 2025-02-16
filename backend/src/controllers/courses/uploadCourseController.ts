@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage,
-    limits: { fileSize: 32000 * 1024 * 1024 }, // 5MB limit
+    limits: { fileSize: 32000 * 1024 * 1024 }, // 32GB limit
 }).array("files", 10); // Accepts multiple files
 
 function deleteUploadedFiles(files: Express.Multer.File[]) {
@@ -70,7 +70,7 @@ export const createCourse = async (req: Request, res: Response) => {
                 data: {
                     name,
                     description,
-                    cost,
+                    cost: parseFloat(cost),
                     category: category ? parseInt(category) : null, // Foreign key
                     activated: activated === "true" ? true : false,
                     author: userId,

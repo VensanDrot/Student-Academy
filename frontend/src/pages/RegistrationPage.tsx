@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ReactComponent as Cross } from "../img/plus.svg";
-import { useSignUpMutation } from "../hooks/mutations/registerUser";
+import { useSignUpMutation } from "../hooks/mutations/register-user";
 import Cookies from "js-cookie";
 
 const RegistrationPage = () => {

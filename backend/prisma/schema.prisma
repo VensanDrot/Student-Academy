@@ -11,18 +11,20 @@ datasource db {
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Users {
-  id            Int             @id @default(autoincrement())
-  created_at    DateTime        @default(now()) @db.Timestamptz(6)
-  updated_at    DateTime?       @default(now()) @db.Timestamp(6)
-  firstname     String?         @default("")
-  lastname      String?         @default("")
-  email         String?         @unique @default("")
-  phone_number  String?         @default("")
-  password      String?         @default("")
-  user_type     Int?
-  balance       Decimal?        @db.Decimal(10, 2)
-  Courses       Courses[]
-  Subscriptions Subscriptions[]
+  id             Int              @id @default(autoincrement())
+  created_at     DateTime         @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime?        @updatedAt @db.Timestamptz(6)
+  firstname      String?          @default("")
+  lastname       String?          @default("")
+  email          String?          @unique @default("")
+  phone_number   String?          @default("")
+  password       String?          @default("")
+  user_type      Int?
+  balance        Float?           @default(0)
+  Courses        Courses[]
+  PaymentMethods PaymentMethods[]
+  Subscriptions  Subscriptions[]
+  TestResults    TestResults[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -37,16 +39,17 @@ model Categories {
 model Courses {
   id            Int             @id @default(autoincrement())
   created_at    DateTime        @default(now()) @db.Timestamptz(6)
-  updated_at    DateTime?       @default(now()) @db.Timestamp(6)
+  updated_at    DateTime?       @updatedAt @db.Timestamptz(6)
   name          String?         @default("")
   description   String?         @default("")
-  cost          Decimal?        @db.Decimal(10, 2)
+  cost          Float?          @default(0)
   category      Int?
   activated     Boolean?        @default(true)
   author        Int?
   Users         Users?          @relation(fields: [author], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Categories    Categories?     @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
   CoursesFiles  CoursesFiles[]
+  Programs      Programs[]
   Subscriptions Subscriptions[]
 }
 
@@ -67,8 +70,86 @@ model Subscriptions {
   created_at   DateTime @default(now()) @db.Timestamptz(6)
   course_id    Int?
   user_id      Int?
-  amount_paid  Decimal? @db.Decimal
-  course_price Decimal? @db.Decimal
+  amount_paid  Float?
+  course_price Float?
   Courses      Courses? @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Users        Users?   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model PaymentMethods {
+  id           Int      @id @default(autoincrement())
+  created_at   DateTime @default(now()) @db.Timestamptz(6)
+  card_number  String?  @default("")
+  cvv          String?  @default("")
+  holder_name  String?  @default("")
+  phone_number String?  @default("")
+  type         String?  @default("")
+  user_id      Int?
+  exparation   String?  @default("")
+  Users        Users?   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Programs {
+  id            Int             @id @default(autoincrement())
+  created_at    DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime?       @updatedAt @db.Timestamptz(6)
+  course_id     Int?
+  type          Int?            @db.SmallInt
+  order         Int?
+  time          String?         @default("")
+  name          String?         @default("")
+  description   String?         @default("")
+  reward_score  Float?
+  passing_score Float?
+  Courses       Courses?        @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ProgramsFiles ProgramsFiles[]
+  Question      Question[]
+  TestResults   TestResults[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model ProgramsFiles {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  program_id Int?
+  file_type  String?   @default("")
+  file_name  String?   @default("")
+  file_path  String?   @default("")
+  Programs   Programs? @relation(fields: [program_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Answer {
+  id          Int       @id @default(autoincrement())
+  created_at  DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime? @default(now()) @updatedAt @db.Timestamptz(6)
+  question_id Int?
+  answer      String?   @default("")
+  is_true     Boolean?
+  Question    Question? @relation(fields: [question_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Question {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @default(now()) @updatedAt @db.Timestamptz(6)
+  program_id Int?
+  question   String?   @default("")
+  Answer     Answer[]
+  Programs   Programs? @relation(fields: [program_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model TestResults {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @updatedAt @db.Timestamptz(6)
+  user_id    Int?
+  test_id    Int?
+  result     Int?
+  Programs   Programs? @relation(fields: [test_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Users      Users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

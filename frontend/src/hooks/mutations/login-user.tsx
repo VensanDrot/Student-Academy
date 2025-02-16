@@ -47,8 +47,8 @@ export const useRefreshToken = ({
         },
       });
 
-      Cookies.set("access", data?.access_token as string, { expires: 1 / 3 });
-      Cookies.set("refresh", data?.refresh_token as string, { expires: 7 });
+      Cookies.set("access", data?.access as string, { expires: 1 / 3 });
+      Cookies.set("refresh", data?.refresh as string, { expires: 7 });
       Cookies.set("name", data?.user?.firstname as string, { expires: 7 });
       data?.user?.lastname && Cookies.set("lastname", data?.user?.lastname as string, { expires: 7 });
       data?.user?.email && Cookies.set("email", data?.user?.email as string, { expires: 7 });

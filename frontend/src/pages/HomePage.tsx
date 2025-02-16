@@ -10,7 +10,6 @@ import { Loader, TextInput } from "@gravity-ui/uikit";
 import { ScrollContext } from "./RootLayoutSigned";
 import { getAllCourses } from "../hooks/fetching/getAllCourses";
 import { CourseOrgAll } from "../constants/types";
-import TopPageSearch from "../components/TopPageSearch";
 import { useDebouncedValue } from "../utils/useDebouncedValue";
 
 const HomePage = () => {
@@ -87,7 +86,8 @@ const HomePage = () => {
 
       {/* Courses */}
       <div className="w-full">
-        <div className="grid grid-cols-2 gap-y-6 gap-x-8 w-fit">
+        {/* grid grid-cols-2 gap-y-6 gap-x-8 */}
+        <div className="flex flex-wrap gap-8 gap-y-6 w-fit">
           {courses?.map((course: CourseOrgAll, index) => (
             <CoursePreviewComponent
               key={index}
@@ -100,17 +100,13 @@ const HomePage = () => {
                     : `coursePreview?id=${course?.id}&name=${course?.name}`
                 );
               }}
-              // onBuy={
-              //   course?.purchased
-              //     ? undefined
-              //     : () => {
-              //         navigate(
-              //           `payment?id=${course?.id}&name=${course?.name}${
-              //             course?.sub_id ? `&sub_id=${course?.sub_id}` : ""
-              //           }`
-              //         );
-              //       }
-              // }
+              onBuy={
+                course?.purchased
+                  ? undefined
+                  : () => {
+                      navigate(`payment?id=${course?.id}&name=${course?.name}`);
+                    }
+              }
             />
           ))}
         </div>

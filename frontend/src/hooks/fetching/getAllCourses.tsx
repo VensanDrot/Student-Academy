@@ -21,3 +21,17 @@ export const getAllCourses = async (
 
   return data as CoursesAdminResponse;
 };
+
+export const getPurchasedCourses = async (
+  page: number | string,
+  recordsPerPage: number,
+  search: string,
+  category?: string
+) => {
+  const cat = category ? `&cat_id=${category}` : "";
+  const { data } = await apiClient.get<CoursesAdminResponse, AxiosResponse<CoursesAdminResponse>>(
+    `/course/purchased-courses?page=${page}&search=${search}&items_per_page=${recordsPerPage}${cat}`
+  );
+
+  return data as CoursesAdminResponse;
+};

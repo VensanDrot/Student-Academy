@@ -8,6 +8,11 @@ import RootLayoutSigned from "../pages/RootLayoutSigned";
 import CreatedCourses from "../pages/CreatedCourses";
 import CourseCreation from "../pages/CourseCreation";
 import HomePage from "../pages/HomePage";
+import Payment from "../pages/Payment";
+import MyCourses from "../pages/MyCourses";
+import CourseDetailsCl from "../pages/CourseDetails";
+import TakeLesson from "../pages/TakeLesson";
+import CelebrationPage from "../pages/CelebrationPage";
 
 const Routes = () => {
   const router = createBrowserRouter([
@@ -17,8 +22,13 @@ const Routes = () => {
       element: <RootLayoutSigned />,
       children: [
         { path: "/", element: <HomePage /> },
-        { path: "/uploadedcourses", element: <CreatedCourses /> },
+        { path: "/payment", element: <Payment /> },
+        { path: "/mycourses", element: <MyCourses /> },
+        { path: "/takelesson", element: <TakeLesson /> },
         { path: "/createcourse", element: <CourseCreation /> },
+        { path: "/coursedetails", element: <CourseDetailsCl /> },
+        { path: "/completedtest", element: <CelebrationPage /> },
+        { path: "/uploadedcourses", element: <CreatedCourses /> },
       ],
     },
     {

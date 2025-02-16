@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import React, { useEffect, useRef, useState } from "react";
 import { Outlet, useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { useRefreshToken } from "../hooks/mutations/loginUser";
+import { useRefreshToken } from "../hooks/mutations/login-user";
 import { TopMenu } from "../components/TopMenu";
 import SideMenu from "../components/SideMenu";
 
@@ -20,14 +20,16 @@ const RootLayoutSigned = () => {
 
     if (refreshToken && !accessToken) refreshTokenMutation.mutate({ refreshToken });
 
-    if (
-      !accessToken &&
-      location.pathname !== "/registration" &&
-      location.pathname !== "/recoverpassword" &&
-      location.pathname !== "/login"
-    )
+    if (!accessToken && location.pathname !== "/registration" && location.pathname !== "/login")
       navigate(`/login?backto=${searchParams.get("backto") || location.pathname}`);
   }, [navigate, location.pathname]);
+
+  useEffect(() => {
+    // Update context value once the DOM node is available
+    if (outletRef.current) {
+      setScrollableElement(outletRef.current);
+    }
+  }, []);
 
   const refreshTokenMutation = useRefreshToken({
     onSuccess: (data) => {

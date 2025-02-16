@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { SetStateAction } from "react";
-import { getNumberedCategories } from "../hooks/fetching/getNumCategories";
+import { getNumberedCategories, getPurchasedCategories } from "../hooks/fetching/getNumCategories";
 
 interface IProps {
   setActive: React.Dispatch<SetStateAction<string>>;
@@ -11,7 +11,7 @@ interface IProps {
 const DisplayCategories: React.FC<IProps> = ({ setActive, active, isActiveJob }) => {
   const { data: categories } = useQuery({
     queryKey: ["categories", isActiveJob],
-    queryFn: () => getNumberedCategories(),
+    queryFn: () => (isActiveJob ? getPurchasedCategories() : getNumberedCategories()),
     staleTime: Infinity,
     retry: 2,
   });

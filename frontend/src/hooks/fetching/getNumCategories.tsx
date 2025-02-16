@@ -12,3 +12,9 @@ export const getNumberedCategories = async () => {
 
   return data as NumberedCat;
 };
+
+export const getPurchasedCategories = async () => {
+  const { data } = await apiClient.get<NumberedCat, AxiosResponse<NumberedCat>>(`/user/purchased-categories`);
+
+  return data as NumberedCat;
+};

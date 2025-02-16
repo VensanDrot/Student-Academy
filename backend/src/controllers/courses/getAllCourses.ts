@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { prisma } from "../../../prisma/index";
-import jwt from "jsonwebtoken";
 import { getDecodedToken } from "../../utils/getDecodedToken";
 import { Prisma } from "@prisma/client";
 
 const getAllCourses = async (req: Request, res: Response): Promise<any> => {
     const token = req.headers["x-access-token"] as string;
+
+    const user_id = getDecodedToken(token);
 
     // Extract query parameters: search, page, items_per_page
     const { search = "", cat_id, page = "1", items_per_page = "10" } = req.query;
@@ -47,6 +48,7 @@ const getAllCourses = async (req: Request, res: Response): Promise<any> => {
   c.cost, 
   c."created_at",
   (${relevanceSQL}) AS relevance,
+  (Select name from "Categories" where "Categories".id = c.id ) as category,
   (
     SELECT CAST(COUNT(*) AS int)
     FROM "Subscriptions" s
@@ -61,9 +63,25 @@ const getAllCourses = async (req: Request, res: Response): Promise<any> => {
         "id"
       FROM "CoursesFiles" cd
       WHERE "course_id" = c.id AND cd."file_type" ILIKE '%image%'
-      ORDER BY "created_at" DESC
+      ORDER BY "created_at" DESC Limit 3
     ) AS cf
-  ) AS course_files
+  ) AS course_files,
+   ${
+       user_id
+           ? `(
+    CASE
+      WHEN c.author = ${user_id} THEN TRUE
+      WHEN EXISTS (
+        SELECT 1
+        FROM "Subscriptions" s2
+        WHERE s2."course_id" = c.id
+          AND s2."user_id" =${user_id}
+      ) THEN TRUE
+      ELSE FALSE
+    END
+  ) AS purchased`
+           : ""
+   }
 FROM "Courses" c
 WHERE 
   ${searchTerms
@@ -73,7 +91,7 @@ WHERE
       `
       )
       .join(" OR ")}
-  AND c.activated = true
+  AND c.activated = true ${cat_id ? `AND c.category = ${cat_id}` : ""}
 ORDER BY 
   ${relevanceSQL} DESC,
   c."created_at" DESC
@@ -81,7 +99,7 @@ LIMIT ${perPage}
 OFFSET ${skip};
  `;
 
-        console.log(rawQuery);
+        // console.log(rawQuery);
 
         const response = await prisma.$transaction([
             prisma.courses.count({

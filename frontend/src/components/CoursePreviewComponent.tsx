@@ -7,17 +7,18 @@ import { CourseOrgActive } from "../constants/types";
 
 import "swiper/css";
 import "swiper/css/pagination";
-import { GetCorrectedLink, GetCorrectedLinkImg } from "../utils/getCorrectedLink";
+import { GetCorrectedLinkImg } from "../utils/getCorrectedLink";
 
 interface IProps {
   index: number | string;
   onDetails: () => void;
   onBuy?: () => void;
   text?: React.ReactNode;
+  buyButton?: string;
   course: CourseOrgActive | CourseOrgActive;
 }
 
-const CoursePreviewComponent: React.FC<IProps> = ({ index, text, course, onDetails, onBuy }) => {
+const CoursePreviewComponent: React.FC<IProps> = ({ index, text, course, buyButton, onDetails, onBuy }) => {
   const { t } = useTranslation();
 
   return (
@@ -56,21 +57,15 @@ const CoursePreviewComponent: React.FC<IProps> = ({ index, text, course, onDetai
       <div className="flex flex-col gap-3">
         <p className="text-ft text-linkblue font-semibold">{course?.category}</p>
         <p className="text-2xl text-black font-semibold">{course?.name}</p>
-        <p className="text-xl text-textlightgrey font-semibold">
-          {text || (
-            <>
-              ${course?.cost} <span className="text-st font-normal text-icongray"></span>
-            </>
-          )}
-        </p>
+        <p className="text-xl text-textlightgrey font-semibold">{text || <>{course?.cost && `$${course?.cost}`}</>}</p>
       </div>
-      <div className="flex gap-3">
+      <div className="flex gap-3 mt-auto">
         <Button type="button" onClick={onDetails} className="w-full" view="normal" size="xl">
           {t("bus_course.details")}
         </Button>
         {onBuy && (
           <Button type="button" onClick={onBuy} className="w-full" view="action" size="xl">
-            {t("bus_course.buy")}
+            {buyButton || t("bus_course.buy")}
           </Button>
         )}
       </div>

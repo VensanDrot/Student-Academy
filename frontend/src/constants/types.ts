@@ -38,6 +38,14 @@ export interface Categories {
   name: string;
 }
 
+export type CourseDetailProgram = {
+  id: number;
+  name: string;
+  order: number;
+  preview: string;
+  type: number;
+};
+
 export type CourseOrgActive = {
   id: number;
   name: string;
