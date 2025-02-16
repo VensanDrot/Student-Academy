@@ -47,7 +47,7 @@ Our creators are:
 
 - David Rodriguez, Backend Developer, [Portfolio](https://drod75.github.io/)
 
-- Abel Tapia, Backend Developer, [Github](https://www.linkedin.com/in/abel-tapia-99at0211/)
+- Abel Tapia, Backend Developer, [LinkedIn](https://www.linkedin.com/in/abel-tapia-99at0211/)
 
 <br>
 
@@ -59,7 +59,7 @@ The current features you can access are:
 
 - Share your study guides and notes!
 
-- Free AI generated study guides!
+- Sell your work!
 
 <br>
 
@@ -89,6 +89,7 @@ The current features you can access are:
 <br>
 
 ## Demo
+You can try out our site here at: https://bc-hackathon.vercel.app/
 
 <video width="500" height="500" controls>
   <source src="movie.mp4" type="video/mp4">
@@ -130,7 +131,7 @@ Devpost link: https://bulldoghacks.devpost.com/?ref_content=default&ref_feature=
 [contributors-url]: https://github.com/VensanDrot/BCHackathon/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/VensanDrot/BCHackathon.svg?style=for-the-badge
 [forks-url]: https://github.com/VensanDrot/BCHackathon/forks
-[stars-shield]: https://img.shields.io/github/stars/VensanDrot/BCHackathonacknyu.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/VensanDrot/BCHackathon.svg?style=for-the-badge
 [stars-url]: https://github.com/VensanDrot/BCHackathon/stargazers
 [issues-shield]: https://img.shields.io/github/issues/VensanDrot/BCHackathon.svg?style=for-the-badge
 [issues-url]: https://github.com/VensanDrot/BCHackathon/issues
