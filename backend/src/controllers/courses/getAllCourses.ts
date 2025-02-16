@@ -48,7 +48,7 @@ const getAllCourses = async (req: Request, res: Response): Promise<any> => {
   c.cost, 
   c."created_at",
   (${relevanceSQL}) AS relevance,
-  (Select name from "Categories" where "Categories".id = c.id ) as category,
+  (Select name from "Categories" where "Categories".id = c.category ) as category,
   (
     SELECT CAST(COUNT(*) AS int)
     FROM "Subscriptions" s

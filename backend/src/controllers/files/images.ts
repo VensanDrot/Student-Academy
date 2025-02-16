@@ -10,7 +10,7 @@ export const getImage = (req: Request, res: Response): void => {
             return;
         }
 
-        const imagePath = path.join(__dirname, "../../../image", filename);
+        const imagePath = path.join(__dirname, "../../../../image", filename);
 
         if (!fs.existsSync(imagePath)) {
             res.status(404).json({ message: "Image not found" });
