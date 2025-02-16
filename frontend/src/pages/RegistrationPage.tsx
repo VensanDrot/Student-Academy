@@ -46,6 +46,7 @@ const RegistrationPage = () => {
       Cookies.set("name", data?.user?.firstname as string, { expires: 7 });
       data?.user?.lastname && Cookies.set("lastname", data?.user?.lastname as string, { expires: 7 });
       data?.user?.email && Cookies.set("email", data?.user?.email as string, { expires: 7 });
+      navigate("/");
     },
     onError: (error) => {
       setError(error?.response?.data?.message || t("def_err"));
