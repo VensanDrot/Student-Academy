@@ -82,12 +82,6 @@ The current features you can access are:
 
 <br>
 
-## Workflow Diagram
-
-<img src='' alt='diagram' width=500>
-
-<br>
-
 ## Demo
 You can try out our site here at: https://bc-hackathon.vercel.app/
 
