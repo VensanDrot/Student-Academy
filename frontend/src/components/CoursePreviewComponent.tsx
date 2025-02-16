@@ -56,13 +56,7 @@ const CoursePreviewComponent: React.FC<IProps> = ({ index, text, course, onDetai
       <div className="flex flex-col gap-3">
         <p className="text-ft text-linkblue font-semibold">{course?.category}</p>
         <p className="text-2xl text-black font-semibold">{course?.name}</p>
-        <p className="text-xl text-textlightgrey font-semibold">
-          {text || (
-            <>
-              ${course?.cost} <span className="text-st font-normal text-icongray"></span>
-            </>
-          )}
-        </p>
+        <p className="text-xl text-textlightgrey font-semibold">{text || <>{course?.cost && `$${course?.cost}`}</>}</p>
       </div>
       <div className="flex gap-3">
         <Button type="button" onClick={onDetails} className="w-full" view="normal" size="xl">

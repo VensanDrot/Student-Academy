@@ -24,6 +24,13 @@ const RootLayoutSigned = () => {
       navigate(`/login?backto=${searchParams.get("backto") || location.pathname}`);
   }, [navigate, location.pathname]);
 
+  useEffect(() => {
+    // Update context value once the DOM node is available
+    if (outletRef.current) {
+      setScrollableElement(outletRef.current);
+    }
+  }, []);
+
   const refreshTokenMutation = useRefreshToken({
     onSuccess: (data) => {
       navigate(searchParams.get("backto") || "/");

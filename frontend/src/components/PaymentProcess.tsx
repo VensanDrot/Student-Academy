@@ -231,7 +231,7 @@ const PaymentProcess: React.FC<IProps> = ({ courseId, active, cardId, selectCard
               <p className="text-2xl font-semibold text-textblack">${availableCards?.price}</p>
             </div>
           </div>
-          <Button type="button" size="xl" view="action" onClick={proceedPayment}>
+          <Button type="button" size="xl" view="action" disabled={!cardId} onClick={proceedPayment}>
             {t("payment.pay")} ${availableCards?.price}
           </Button>
         </div>

@@ -16,12 +16,12 @@ export const SideMenuLinks = [
     icon: <GradCap />,
     render: () => Cookies.get("courses") === "allowed",
   },
-  // {
-  //   link: "/activecourses",
-  //   text: "side_menu.active_courses",
-  //   icon: <Clock />,
-  //   render: () => Cookies.get("active_courses") === "allowed",
-  // },
+  {
+    link: "/mycourses",
+    text: "side_menu.active_courses",
+    icon: <Clock />,
+    render: () => Cookies.get("active_courses") === "allowed",
+  },
   {
     link: "/uploadedcourses",
     text: "side_menu.exams",

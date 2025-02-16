@@ -9,6 +9,7 @@ import CreatedCourses from "../pages/CreatedCourses";
 import CourseCreation from "../pages/CourseCreation";
 import HomePage from "../pages/HomePage";
 import Payment from "../pages/Payment";
+import MyCourses from "../pages/MyCourses";
 
 const Routes = () => {
   const router = createBrowserRouter([
@@ -19,8 +20,9 @@ const Routes = () => {
       children: [
         { path: "/", element: <HomePage /> },
         { path: "/payment", element: <Payment /> },
-        { path: "/uploadedcourses", element: <CreatedCourses /> },
+        { path: "/mycourses", element: <MyCourses /> },
         { path: "/createcourse", element: <CourseCreation /> },
+        { path: "/uploadedcourses", element: <CreatedCourses /> },
       ],
     },
     {
