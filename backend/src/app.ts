@@ -15,8 +15,6 @@ import filesRouter from "./routes/files";
 import paymentRouter from "./routes/payments";
 import programRoutes from "./routes/programs";
 
-var jsonParser = bodyParser.json();
-const prisma = new PrismaClient();
 const app = express();
 
 // parse application/json
@@ -27,7 +25,12 @@ app.use(express.json()); //  Parse JSON requests
 app.use(express.urlencoded({ extended: true })); //  Parse URL-encoded requests
 app.use(
     cors({
-        origin: ["*", "https://avd.vensandrot.com/"],
+        origin: [
+            "*",
+            "https://avd.vensandrot.com/",
+            "https://bc-hackathon-git-main-vensan-drots-projects.vercel.app/",
+            "https://bc-hackathon-fcqcr6hyk-vensan-drots-projects.vercel.app/",
+        ],
         methods: ["POST", "GET", "DELETE", "PATCH", "PUT"],
         credentials: true,
     })
