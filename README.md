@@ -10,10 +10,8 @@
 <br />
 <div align="center">
 
-<a href="https://github.com/VensanDrot/BCHackathon">
-
-  <img src='https://raw.githubusercontent.com/VensanDrot/BCHackathon/58245b802710c8d7bbf8e47defdc00b3d1bcea7c/frontend/src/img/Party.svg?token=BBLQYNSGIF5IUVK43KXC3KDHWEBL4' width=80 />
-  </a><h3>ADV-Academy</h3>
+<a href="https://github.com/VensanDrot/BCHackathon"><h3>ADV-Academy</h3>
+  </a>
 
   <p align="center">
     A site made for students, by students
@@ -83,12 +81,11 @@ The current features you can access are:
 <br>
 
 ## Demo
-You can try out our site here at: https://bc-hackathon.vercel.app/
+You can try out our site here at:
 
-<video width="500" height="500" controls>
-  <source src="movie.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+https://bc-hackathon.vercel.app/
+
+https://youtu.be/XNyV-hXVxX0
 
 <br>
 
