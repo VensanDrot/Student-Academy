@@ -21,6 +21,7 @@ import { useDeleteCourseMutation } from "../hooks/mutations/delete-course";
 import ProgramComponent from "../components/ProgramComponent";
 import { useCreateLessonMutation, useCreateTestMutation } from "../hooks/mutations/create-program";
 import { useDeleteProgramMutation } from "../hooks/mutations/delete-program";
+import { useUpdateLessonMutation, useUpdateTestMutation } from "../hooks/mutations/update-program";
 
 export interface ToasterReq {
   error: boolean;
@@ -175,6 +176,12 @@ const CourseCreation = () => {
   // //delete Program Mutation
   const deleteProgramMutation = useDeleteProgramMutation({
     onSuccess: (data) => {
+      setCurrentProgram(0);
+      setPrograms(
+        programs?.filter((program: ProgramBuild) => program?.order !== deleteProgramObject?.order && program)
+      );
+      setDeleteProgram(false);
+
       queryClient.setQueryData(["courseRetrieve", searchParams?.get("id")], (old: CourseRes) => {
         const updated = old
           ? {
@@ -191,11 +198,11 @@ const CourseCreation = () => {
         setCourseAndFiles(updated);
         return updated;
       });
-      setCurrentProgram(0);
     },
     onError: (data) => {
       console.log(data);
       setCourseAndFiles(courseRetrieve);
+      setDeleteProgram(false);
     },
   });
 
@@ -206,6 +213,7 @@ const CourseCreation = () => {
         prev?.map((program, index) => (index === currentProgram ? { ...program, id: data?.data?.id } : program))
       );
       setLoadingBar((prev) => ({ ...prev, ...data, active: false }));
+      setToaster({ header: t("prog_up"), line: "", open: true, error: false });
 
       queryClient.setQueryData(["courseRetrieve", searchParams?.get("id")], (old: CourseRes) => {
         const updated = old
@@ -237,42 +245,37 @@ const CourseCreation = () => {
     },
   });
 
-  // const updateProgramLessonMutation = useUpdateLessonMutation({
-  //   onSuccess: (data) => {
-  //     setPrograms((prev) =>
-  //       prev?.map((program, index) => (index === currentProgram ? { ...program, id: data?.data?.id } : program))
-  //     );
-  //     setLoadingBar((prev) => ({ ...prev, ...data, active: false }));
+  const updateProgramLessonMutation = useUpdateLessonMutation({
+    onSuccess: (data) => {
+      setLoadingBar((prev) => ({ ...prev, ...data, active: false }));
 
-  //     queryClient.setQueryData(["courseRetrieve", searchParams?.get("id")], (old: CourseRes) => {
-  //       const updated = old
-  //         ? {
-  //             ...old,
-  //             data: {
-  //               ...old?.data,
-  //               programs: [
-  //                 ...(old?.data?.programs?.map((program: any) =>
-  //                   program?.id === data?.data?.id ? data?.data : program
-  //                 ) || []),
-  //               ],
-  //             },
-  //           }
-  //         : old;
-  //       setCourseAndFiles(updated);
-  //       return updated;
-  //     });
-  //   },
-  //   onError: (data) => {
-  //     console.log(data);
-  //     setLoadingBar((prev) => ({ ...prev, ...data, active: false }));
-  //   },
-  //   onProgress: (data) => {
-  //     !loadingBar?.active && setLoadingBar((prev) => ({ ...prev, ...data, active: true }));
-  //     setLoadingBar((prev) => ({ ...prev, ...data }));
-  //   },
-  // });
-
-  console.log(programs);
+      queryClient.setQueryData(["courseRetrieve", searchParams?.get("id")], (old: CourseRes) => {
+        const updated = old
+          ? {
+              ...old,
+              data: {
+                ...old?.data,
+                programs: [
+                  ...(old?.data?.programs?.map((program: any) =>
+                    program?.id === data?.data?.id ? data?.data : program
+                  ) || []),
+                ],
+              },
+            }
+          : old;
+        setCourseAndFiles(updated);
+        return updated;
+      });
+    },
+    onError: (data) => {
+      console.log(data);
+      setLoadingBar((prev) => ({ ...prev, ...data, active: false }));
+    },
+    onProgress: (data) => {
+      !loadingBar?.active && setLoadingBar((prev) => ({ ...prev, ...data, active: true }));
+      setLoadingBar((prev) => ({ ...prev, ...data }));
+    },
+  });
 
   //create Test Mutation
   const createTestLessonMutation = useCreateTestMutation({
@@ -284,6 +287,7 @@ const CourseCreation = () => {
         )
       );
       setLoadingBar((prev) => ({ ...prev, active: false }));
+      setToaster({ header: t("prog_up"), line: "", open: true, error: false });
 
       queryClient.setQueryData(["courseRetrieve", searchParams?.get("id")], (old: CourseRes) => {
         const updated = old
@@ -312,35 +316,31 @@ const CourseCreation = () => {
     },
   });
 
-  // // update test mutation
-  // const updateTestLessonMutation = useUpdateTestMutation({
-  //   onSuccess: (data) => {
-  //     setPrograms((prev) =>
-  //       prev?.map((program, index) => (index === currentProgram ? { ...program, id: data?.data?.id } : program))
-  //     );
-
-  //     queryClient.setQueryData(["courseRetrieve", searchParams?.get("id")], (old: CourseRes) => {
-  //       const updated = old
-  //         ? {
-  //             ...old,
-  //             data: {
-  //               ...old?.data,
-  //               programs: [
-  //                 ...(old?.data?.programs?.map((program: any) =>
-  //                   program?.id === data?.data?.id ? data?.data : program
-  //                 ) || []),
-  //               ],
-  //             },
-  //           }
-  //         : old;
-  //       setCourseAndFiles(updated);
-  //       return updated;
-  //     });
-  //   },
-  //   onError: (data) => {
-  //     console.log(data);
-  //   },
-  // });
+  // update test mutation
+  const updateTestLessonMutation = useUpdateTestMutation({
+    onSuccess: (data) => {
+      queryClient.setQueryData(["courseRetrieve", searchParams?.get("id")], (old: CourseRes) => {
+        const updated = old
+          ? {
+              ...old,
+              data: {
+                ...old?.data,
+                programs: [
+                  ...(old?.data?.programs?.map((program: any) =>
+                    program?.id === data?.data?.id ? data?.data : program
+                  ) || []),
+                ],
+              },
+            }
+          : old;
+        setCourseAndFiles(updated);
+        return updated;
+      });
+    },
+    onError: (data) => {
+      console.log(data);
+    },
+  });
 
   //delete course
   const deleteFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -352,7 +352,7 @@ const CourseCreation = () => {
   const deleteProgramFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (deleteProgramObject?.id) deleteProgramMutation.mutate({ id: deleteProgramObject?.id });
+    if (deleteProgramObject?.id) return deleteProgramMutation.mutate({ id: deleteProgramObject?.id });
 
     setPrograms(programs?.filter((program: ProgramBuild) => program?.order !== deleteProgramObject?.order && program));
     setDeleteProgram(false);
@@ -610,12 +610,10 @@ const CourseCreation = () => {
                     setPrograms={setPrograms}
                     courseRetrieve={courseRetrieve || ({} as CourseRes)}
                     currentProgram={currentProgram}
-                    // createExamLessonMutation={createExamLessonMutation}
-                    // updateProgramLessonMutation={updateProgramLessonMutation}
+                    updateProgramLessonMutation={updateProgramLessonMutation}
                     createTestLessonMutation={createTestLessonMutation}
-                    // updateTestLessonMutation={updateTestLessonMutation}
+                    updateTestLessonMutation={updateTestLessonMutation}
                     createProgramLessonMutation={createProgramLessonMutation}
-                    // updateExamLessonMutation={updateExamLessonMutation}
                   />
                 ) : (
                   <div className="w-full max-w-[850px] h-full" />

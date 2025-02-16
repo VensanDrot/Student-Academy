@@ -46,6 +46,7 @@ export const getCourse = async (req: Request, res: Response): Promise<any> => {
                             },
                         },
                     },
+                    orderBy: { order: "asc" },
                 },
             },
         });

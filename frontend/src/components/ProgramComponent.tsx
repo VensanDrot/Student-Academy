@@ -18,11 +18,9 @@ interface IProps {
   currentProgram: number;
   courseId: number | string;
   createProgramLessonMutation: UseMutationResult<any, any, any, any>;
-  // updateProgramLessonMutation: UseMutationResult<any, any, any, any>;
+  updateProgramLessonMutation: UseMutationResult<any, any, any, any>;
   createTestLessonMutation: UseMutationResult<any, any, any, any>;
-  // updateTestLessonMutation: UseMutationResult<any, any, any, any>;
-  // createExamLessonMutation: UseMutationResult<any, any, any, any>;
-  // updateExamLessonMutation: UseMutationResult<any, any, any, any>;
+  updateTestLessonMutation: UseMutationResult<any, any, any, any>;
   delFunction?: (item: any) => void;
   setPrograms: React.Dispatch<SetStateAction<ProgramBuild[]>>;
   courseRetrieve: CourseRes;
@@ -37,11 +35,9 @@ const ProgramComponent: React.FC<IProps> = ({
   currentProgram,
   courseId,
   createProgramLessonMutation,
-  // updateProgramLessonMutation,
+  updateProgramLessonMutation,
   createTestLessonMutation,
-  // updateTestLessonMutation,
-  // createExamLessonMutation,
-  // updateExamLessonMutation,
+  updateTestLessonMutation,
   delFunction,
   setPrograms,
   courseRetrieve,
@@ -269,7 +265,7 @@ const ProgramComponent: React.FC<IProps> = ({
         obj["type"] = programToSubmit?.type;
         obj["program_id"] = programToSubmit?.id;
 
-        // updateProgramLessonMutation.mutate(obj);
+        updateProgramLessonMutation.mutate(obj);
       }
       //edit tests
       if (programToSubmit?.type === 2) {
@@ -401,7 +397,7 @@ const ProgramComponent: React.FC<IProps> = ({
         obj["type"] = programToSubmit?.type;
         obj["id"] = programToSubmit?.id;
 
-        // updateTestLessonMutation.mutate(obj);
+        updateTestLessonMutation.mutate(obj);
       }
     }
     // creating a new program

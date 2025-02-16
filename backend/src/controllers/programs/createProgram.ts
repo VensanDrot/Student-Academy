@@ -4,6 +4,11 @@ import multer from "multer";
 import jwt from "jsonwebtoken";
 import fs from "fs";
 
+type QuestionReq = {
+    question: string;
+    answers: { answer: string; is_true: boolean }[];
+}[];
+
 // Configure Multer inside the endpoint
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -108,7 +113,19 @@ export const createProgram = async (req: Request, res: Response): Promise<any> =
 
         case "2": {
             try {
-                const { name, order, passing_score, reward_score, questions } = req.body;
+                const {
+                    name,
+                    order,
+                    passing_score,
+                    reward_score,
+                    questions,
+                }: {
+                    name: string;
+                    order: string;
+                    passing_score: string;
+                    reward_score: string;
+                    questions: QuestionReq;
+                } = req.body;
 
                 if (!name || !Array.isArray(questions)) {
                     return res
@@ -131,7 +148,7 @@ export const createProgram = async (req: Request, res: Response): Promise<any> =
                                 Answer: {
                                     create: question?.answers?.map((answer: any) => ({
                                         answer: answer?.answer,
-                                        is_true: answer?.is_true === "true" ? true : false,
+                                        is_true: answer?.is_true,
                                     })),
                                 },
                             })),
