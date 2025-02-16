@@ -6,14 +6,21 @@ import authRoutes from "./routes/auth";
 import multer from "multer";
 import cors from "cors";
 import path from "path";
-import fs, { fstat } from "fs";
+import fs from "fs";
 import { authenticateToken } from "./middleware/authMiddleware";
 import categoriesRouter from "./routes/categories";
 import coursesRouter from "./routes/courses";
-import { getVideoChunk } from "./controllers/files/chunks";
 import filesRouter from "./routes/files";
 import paymentRouter from "./routes/payments";
 import programRoutes from "./routes/programs";
+
+const imageDir = path.join(__dirname, "../image");
+
+// Check if image/ folder exists, if not create it
+if (!fs.existsSync(imageDir)) {
+    fs.mkdirSync(imageDir, { recursive: true });
+    console.log("Created folder:", imageDir);
+}
 
 const app = express();
 
