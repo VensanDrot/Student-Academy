@@ -20,7 +20,7 @@ export const useLoginMutation = ({
   useMutation<any, DefaultError, any>({
     mutationFn: async (form) => {
       const { data } = await apiClient.post<AdminExpanded, AxiosResponse<AdminExpanded>, useLogBusMutationReq>(
-        `/user/login`,
+        `/users/login`,
         form
       );
 
@@ -40,7 +40,7 @@ export const useRefreshToken = ({
   useMutation<any, DefaultError, any>({
     mutationFn: async (form) => {
       const refreshToken = Cookies.get("refresh");
-      const { data } = await apiClient.get<any, AxiosResponse<any>, any>("/user/refresh", {
+      const { data } = await apiClient.get<any, AxiosResponse<any>, any>("/users/refresh", {
         headers: {
           "Content-Type": "application/json",
           refresh: refreshToken, // Add any custom header here

@@ -20,7 +20,7 @@ export const useSignUpMutation = ({
   useMutation<any, DefaultError, any>({
     mutationFn: async (form) => {
       const { data } = await apiClient.post<AdminExpanded, AxiosResponse<AdminExpanded>, useRegisterBusMutationReq>(
-        `/user/register`,
+        `/users/register`,
         form
       );
 

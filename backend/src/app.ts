@@ -36,7 +36,7 @@ app.use(
     })
 );
 
-app.use("/user", authRoutes);
+app.use("/users", authRoutes);
 
 app.use("/", filesRouter);
 app.use("/course", authenticateToken, coursesRouter);
