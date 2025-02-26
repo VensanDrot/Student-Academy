@@ -1,15 +1,130 @@
-<h1 align="center">Hi 👋, I'm Vensan</h1>
-<h3 align="center">A passionate full stack engineer from USA</h3>
+<a id="readme-top"></a>
 
-- 🔭 I’m currently working on [JOWi Academy](https://jowi-academy.app/)
+<!-- PROJECT SHIELDS -->
 
-- 👯 I’m looking to collaborate on **all types of projects**
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
 
-<h3 align="left">Connect with me:</h3>
-<p align="left">
-<a href="https://linkedin.com/in/vensandrot" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="vensandrot" height="30" width="40" /></a>
-</p>
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
 
-<h3 align="left">Languages and Tools:</h3>
-<p align="left"> <a href="https://aws.amazon.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="aws" width="40" height="40"/> </a>
- <a href="https://getbootstrap.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="40" height="40"/> </a> <a href="https://www.chartjs.org" target="_blank" rel="noreferrer"> <img src="https://www.chartjs.org/media/logo-title.svg" alt="chartjs" width="40" height="40"/> </a> <a href="https://www.w3schools.com/cpp/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" alt="cplusplus" width="40" height="40"/> </a> <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> </a> <a href="https://www.docker.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="40" height="40"/> </a> <a href="https://expressjs.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original-wordmark.svg" alt="express" width="40" height="40"/> </a> <a href="https://www.figma.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/figma/figma-icon.svg" alt="figma" width="40" height="40"/> </a> <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40"/> </a> <a href="https://graphql.org" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/graphql/graphql-icon.svg" alt="graphql" width="40" height="40"/> </a> <a href="https://www.w3.org/html/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/> </a> <a href="https://www.java.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/> </a> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> </a> <a href="https://www.linux.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="linux" width="40" height="40"/> </a> <a href="https://mariadb.org/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/mariadb/mariadb-icon.svg" alt="mariadb" width="40" height="40"/> </a> <a href="https://www.mongodb.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="40" height="40"/> </a> <a href="https://www.mysql.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40"/> </a> <a href="https://nextjs.org/" target="_blank" rel="noreferrer"> <img src="https://cdn.worldvectorlogo.com/logos/nextjs-2.svg" alt="nextjs" width="40" height="40"/> </a> <a href="https://nodejs.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="40" height="40"/> </a> <a href="https://www.photoshop.com/en" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/photoshop/photoshop-line.svg" alt="photoshop" width="40" height="40"/> </a> <a href="https://www.php.net" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/php/php-original.svg" alt="php" width="40" height="40"/> </a> <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="40" height="40"/> </a> <a href="https://postman.com" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg" alt="postman" width="40" height="40"/> </a> <a href="https://www.python.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/> </a> <a href="https://reactjs.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="40" height="40"/> </a> <a href="https://reactnative.dev/" target="_blank" rel="noreferrer"> <img src="https://reactnative.dev/img/header_logo.svg" alt="reactnative" width="40" height="40"/> </a> <a href="https://redux.js.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redux/redux-original.svg" alt="redux" width="40" height="40"/> </a> <a href="https://tailwindcss.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" alt="tailwind" width="40" height="40"/> </a> <a href="https://www.typescriptlang.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="typescript" width="40" height="40"/> </a> <a href="https://vuejs.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original-wordmark.svg" alt="vuejs" width="40" height="40"/> </a> </p>
+<a href="https://github.com/VensanDrot/BCHackathon"><h3>ADV-Academy</h3>
+</a>
+
+  <p align="center">
+    A site made for students, by students
+    <br/>
+  </p>
+</div>
+
+<!-- Table of contents -->
+<details>
+    <summary>Table of contents</summary>
+    <ol>
+    <ul>
+        <li><a href="#what-is-adv-academy">What is ADV-Academy?</a></li>
+        <li><a href="#who-are-the-creators-of-adv-academy">Who are the creators of ADV-Academy?</a></li>
+        <li><a href="#how-does-adv-academy-work">How does ADV-Academy work?</a></li>
+        <li><a href="#what-is-our-stack">What is our stack?</a></li>
+        <li><a href="#what-are-the-features-of-adv-academy">What are the features of ADV-Academy?</a></li>
+    </ul>
+    </ol>
+</details>
+
+## What is ADV-Academy?
+
+For to long have students needed to balance their financial and education needs, we at ADV Academy want to change that, this is why we founded our website and started our journey. ADV Academy is a state of the art site made to allow students to share their study guides and notes on any course they have taken and to either sell or freely share their work. We the team of ADV Academy started this project with the aim to allow students to share knowledge on topics they had trouble with and help future students with any course they are struggling with. We hope you enjoy our site and make sure you email us if you have any questions or suggestions!
+
+## Who are the creators of ADV-Academy?
+
+Our creators are:
+
+- Vensan Drot, Full Stack Web Developer, [Portfolio](https://www.vensandrot.com/)
+
+- David Rodriguez, Backend Developer, [Portfolio](https://drod75.github.io/)
+
+- Abel Tapia, Backend Developer, [LinkedIn](https://www.linkedin.com/in/abel-tapia-99at0211/)
+
+<br>
+
+## What are the features of ADV-Academy?
+
+The current features you can access are:
+
+- Create an account to help others!
+
+- Share your study guides and notes!
+
+- Sell your work!
+
+<br>
+
+## What is our stack?
+
+### Backend
+
+- ![Node.js Shield](https://img.shields.io/badge/Node.js-43853d?style=for-the-badge&logo=node.js&logoColor=white)
+- ![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+- ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+- ![Prisma](https://img.shields.io/badge/Prisma-2D374A?style=for-the-badge&logo=prisma&logoColor=white)
+
+### Frontend
+
+- ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Typescript](https://img.shields.io/badge/Typescript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+
+### Database
+
+- ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+
+<br>
+
+## Demo
+
+You can try out our site here at:
+
+https://bc-hackathon.vercel.app/
+
+https://youtu.be/XNyV-hXVxX0
+
+<br>
+
+## What is the future of ADV-Academy?
+
+Our team is currently working on:
+
+- Implementing a payment system where users can sell their work
+
+<br>
+
+## How can I contact ADV-Academy?
+
+Via our LinkedIn pages:
+
+- [Vensan Drot](https://www.linkedin.com/in/vensandrot/)
+
+- [David Rodriguez](https://www.linkedin.com/in/david-rodriguez-nyc)
+
+- [Abel Tapia](https://www.linkedin.com/in/abel-tapia-99at0211/)
+
+<br>
+
+## Acknowledgements
+
+This repository was made for the Brooklyn College Bulldog Hacks Hackathon.
+
+Devpost link: https://bulldoghacks.devpost.com/?ref_content=default&ref_feature=challenge&ref_medium=portfolio
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[contributors-shield]: https://img.shields.io/github/contributors/VensanDrot/BCHackathon.svg?style=for-the-badge
+[contributors-url]: https://github.com/VensanDrot/BCHackathon/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/VensanDrot/BCHackathon.svg?style=for-the-badge
+[forks-url]: https://github.com/VensanDrot/BCHackathon/forks
+[stars-shield]: https://img.shields.io/github/stars/VensanDrot/BCHackathon.svg?style=for-the-badge
+[stars-url]: https://github.com/VensanDrot/BCHackathon/stargazers
+[issues-shield]: https://img.shields.io/github/issues/VensanDrot/BCHackathon.svg?style=for-the-badge
+[issues-url]: https://github.com/VensanDrot/BCHackathon/issues
