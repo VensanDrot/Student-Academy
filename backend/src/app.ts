@@ -1,9 +1,7 @@
 import express, { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth";
-import multer from "multer";
 import cors from "cors";
 import path from "path";
 import fs from "fs";
