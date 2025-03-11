@@ -110,7 +110,7 @@ export const deleteCourse = async (req: Request, res: Response): Promise<any> =>
                 });
             }
         }
-
+        // need to make it delete the course anyways also need to make it, diffrent
         return res.status(200).json({ message: "Course deleted successfully" });
     } catch (error: any) {
         console.error("Error deleting course:", error);
