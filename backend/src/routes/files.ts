@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createCourse } from "../controllers/courses/uploadCourseController";
+import { createCourse } from "../controllers/courses/createCourse";
 import { getCourse } from "../controllers/courses/getCourse";
 import { getVideoChunk } from "../controllers/files/chunks";
 import { getImage } from "../controllers/files/images";

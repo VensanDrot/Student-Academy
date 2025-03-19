@@ -11,7 +11,12 @@ export const getVideoChunk = (req: Request, res: Response): void => {
         }
 
         const decodedKey = decodeURIComponent(key); //  Decode URL-encoded names
-        const videoPath = path.join(__dirname, "../../../../image", decodedKey);
+
+        //for the production
+        // const videoPath = path.join(__dirname, "../../../../image", decodedKey);
+
+        //development
+        const videoPath = path.join(__dirname, "../../../image", decodedKey);
 
         if (!fs.existsSync(videoPath)) {
             res.status(404).json({ message: "File not found" });
