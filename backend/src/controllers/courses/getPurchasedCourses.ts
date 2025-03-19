@@ -11,7 +11,7 @@ const getPurchasedCourses = async (req: Request, res: Response): Promise<any> =>
     }
 
     // Pagination (optional)
-    const { page = "1", items_per_page = "10" } = req.query;
+    const { page = "1", items_per_page = "10", cat_id } = req.query;
     const pageNum = parseInt(page as string, 10) || 1;
     const perPage = parseInt(items_per_page as string, 10) || 10;
     const skip = (pageNum - 1) * perPage;
@@ -50,12 +50,12 @@ const getPurchasedCourses = async (req: Request, res: Response): Promise<any> =>
   ) AS course_files
       FROM "Courses" c
       LEFT JOIN "Categories" cat ON cat.id = c.category
-      WHERE c.author = ${user_id}
-        OR c.id IN (
+      WHERE ${cat_id ? `"category"=${cat_id} AND` : ""} (c.author = ${user_id} OR c.id IN (
           SELECT s."course_id"
           FROM "Subscriptions" s
           WHERE s."user_id" = ${user_id}
-        )
+        )  )
+        
       ORDER BY c."created_at" DESC
       LIMIT ${perPage}
       OFFSET ${skip}
