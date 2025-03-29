@@ -11,6 +11,7 @@ import coursesRouter from "./routes/courses";
 import filesRouter from "./routes/files";
 import paymentRouter from "./routes/payments";
 import programRoutes from "./routes/programs";
+import coursesSetupRouter from "./routes/courseSetup";
 
 const imageDir = path.join(__dirname, "../image");
 
@@ -36,17 +37,21 @@ app.use(
     })
 );
 
+// auth routes
 app.use("/users", authRoutes);
 
+// files routes
 app.use("/", filesRouter);
+// courses for clients routes
 app.use("/course", authenticateToken, coursesRouter);
-app.use("/user", authenticateToken, categoriesRouter);
+// courses setup routes
+app.use("/course", authenticateToken, coursesSetupRouter);
+// categories routes
+app.use("/categories", authenticateToken, categoriesRouter);
+// payment routes
 app.use("/payments", authenticateToken, paymentRouter);
+// programs crud routes for all types
 app.use("/programs", authenticateToken, programRoutes);
-
-app.get("/actions/secure-data", authenticateToken, (req: Request, res: Response) => {
-    res.json({ message: "This is a protected route" });
-});
 
 app.use((req: Request, res: Response) => {
     res.status(405).json({
