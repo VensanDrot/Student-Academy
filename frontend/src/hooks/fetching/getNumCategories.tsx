@@ -8,13 +8,13 @@ type NumberedCat = {
 };
 
 export const getNumberedCategories = async () => {
-  const { data } = await apiClient.get<NumberedCat, AxiosResponse<NumberedCat>>(`/user/active-categories`);
+  const { data } = await apiClient.get<NumberedCat, AxiosResponse<NumberedCat>>(`/categories/active-categories`);
 
   return data as NumberedCat;
 };
 
 export const getPurchasedCategories = async () => {
-  const { data } = await apiClient.get<NumberedCat, AxiosResponse<NumberedCat>>(`/user/purchased-categories`);
+  const { data } = await apiClient.get<NumberedCat, AxiosResponse<NumberedCat>>(`/categories/purchased-categories`);
 
   return data as NumberedCat;
 };

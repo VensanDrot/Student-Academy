@@ -10,7 +10,7 @@ export type CategoriesAdminResponse = {
 
 export const getCategoriesForCreation = async () => {
   const { data } = await apiClient.get<CategoriesAdminResponse, AxiosResponse<CategoriesAdminResponse>>(
-    `/user/categories`
+    `/categories/categories`
   );
 
   return data as CategoriesAdminResponse;
