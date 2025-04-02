@@ -21,6 +21,7 @@ model Users {
   password       String?          @default("")
   user_type      Int?
   balance        Float?           @default(0)
+  verified       Boolean?         @default(false)
   Courses        Courses[]
   PaymentMethods PaymentMethods[]
   Subscriptions  Subscriptions[]

@@ -22,18 +22,24 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
 
         // Check if the user exists using email
         const user = await prisma.users.findFirst({
-            where: { email },
+            where: { email, verified: true },
             select: {
                 email: true,
                 firstname: true,
                 lastname: true,
                 id: true,
                 password: true,
+                verified: true,
             },
         });
 
         if (!user || !user?.password) {
             return res.status(404).json({ message: "Invalid email or password" });
+        }
+
+        // if user is not verified
+        if (!user?.verified) {
+            return res.status(403).json({ message: "Account is not verified" });
         }
 
         // Compare passwords

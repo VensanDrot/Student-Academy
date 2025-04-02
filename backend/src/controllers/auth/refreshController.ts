@@ -25,7 +25,7 @@ export const refreshToken = async (req: Request, res: Response): Promise<any> =>
 
             // Check if user still exists
             const user = await prisma.users.findUnique({
-                where: { id: decoded.id },
+                where: { id: decoded.id, verified: true },
                 select: {
                     id: true,
                     firstname: true,
