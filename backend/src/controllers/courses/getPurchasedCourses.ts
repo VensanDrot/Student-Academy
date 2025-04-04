@@ -10,56 +10,55 @@ const getPurchasedCourses = async (req: Request, res: Response): Promise<any> =>
         return res.status(401).json({ message: "Unauthorized" });
     }
 
-    // Pagination (optional)
     const { page = "1", items_per_page = "10", cat_id } = req.query;
     const pageNum = parseInt(page as string, 10) || 1;
     const perPage = parseInt(items_per_page as string, 10) || 10;
     const skip = (pageNum - 1) * perPage;
 
     try {
-        // 1) Count how many courses the user created or purchased
         const countQuery = `
-      SELECT COUNT(*)::int AS total
-      FROM "Courses" c
-      WHERE c.author = ${user_id}
-        OR c.id IN (
-          SELECT s."course_id"
-          FROM "Subscriptions" s
-          WHERE s."user_id" = ${user_id}
-        )
-    `;
+            SELECT COUNT(*)::int AS total
+            FROM "Courses" c
+            WHERE c.approved = true
+              AND (c.author = ${user_id}
+              OR c.id IN (
+                SELECT s."course_id"
+                FROM "Subscriptions" s
+                WHERE s."user_id" = ${user_id}
+              ))
+        `;
 
-        // 2) Fetch the actual courses
-        //    We'll LEFT JOIN categories so we can return category name
         const coursesQuery = `
-      SELECT
-        c.id,
-        c.name,
-        cat.name AS category,
-        (
-    SELECT json_agg(row_to_json(cf))
-    FROM (
-      SELECT
-        "file_name",
-        "file_path",
-        "id"
-      FROM "CoursesFiles" cd
-      WHERE "course_id" = c.id AND cd."file_type" ILIKE '%image%'
-      ORDER BY "created_at" DESC Limit 3
-    ) AS cf
-  ) AS course_files
-      FROM "Courses" c
-      LEFT JOIN "Categories" cat ON cat.id = c.category
-      WHERE ${cat_id ? `"category"=${cat_id} AND` : ""} (c.author = ${user_id} OR c.id IN (
-          SELECT s."course_id"
-          FROM "Subscriptions" s
-          WHERE s."user_id" = ${user_id}
-        )  )
-        
-      ORDER BY c."created_at" DESC
-      LIMIT ${perPage}
-      OFFSET ${skip}
-    `;
+            SELECT
+              c.id,
+              c.name,
+              cat.name AS category,
+              (
+                SELECT json_agg(row_to_json(cf))
+                FROM (
+                  SELECT
+                    "file_name",
+                    "file_path",
+                    "id"
+                  FROM "CoursesFiles" cd
+                  WHERE "course_id" = c.id AND cd."file_type" ILIKE '%image%'
+                  ORDER BY "created_at" DESC LIMIT 3
+                ) AS cf
+              ) AS course_files
+            FROM "Courses" c
+            LEFT JOIN "Categories" cat ON cat.id = c.category
+            WHERE c.approved = true
+              ${cat_id ? `AND c.category = ${cat_id}` : ""}
+              AND (c.author = ${user_id}
+              OR c.id IN (
+                SELECT s."course_id"
+                FROM "Subscriptions" s
+                WHERE s."user_id" = ${user_id}
+              ))
+            ORDER BY c."created_at" DESC
+            LIMIT ${perPage}
+            OFFSET ${skip}
+        `;
 
         const [countResult, coursesResult]: any[] = await prisma.$transaction([
             prisma.$queryRawUnsafe(countQuery),

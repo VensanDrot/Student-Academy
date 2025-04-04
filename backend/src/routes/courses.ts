@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createCourse } from "../controllers/courseSetup/createCourse";
-import { getCourse } from "../controllers/courses/getCourse";
+import { getCourse } from "../controllers/courseSetup/getCourse";
 import { deleteCourse } from "../controllers/courseSetup/deleteCourse";
 import { updateCourse } from "../controllers/courseSetup/updateCourse";
 import getCreatedCourses from "../controllers/courseSetup/getCreatedCourses";
