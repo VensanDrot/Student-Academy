@@ -47,6 +47,7 @@ model Courses {
   category      Int?
   activated     Boolean?        @default(true)
   author        Int?
+  approved      Boolean?        @default(false)
   Users         Users?          @relation(fields: [author], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Categories    Categories?     @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
   CoursesFiles  CoursesFiles[]
