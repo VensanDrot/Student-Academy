@@ -13,7 +13,7 @@
     "login": "Login",
     "exit": "Logout",
     "verify_email": "Verify Your Email Address",
-    "email_sent": "We just sent verification link to {{email}}.",
+    "email_sent": "We just sent verification link to {{email}}",
     "email_action": "Click the link in that email to activate your account.",
     "send_again": "Resend verification email",
     "back_to_main": "Back to login page",

@@ -22,7 +22,7 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
 
         // Check if the user exists using email
         const user = await prisma.users.findFirst({
-            where: { email, verified: true },
+            where: { email },
             select: {
                 email: true,
                 firstname: true,

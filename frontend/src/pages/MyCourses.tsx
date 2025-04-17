@@ -27,6 +27,7 @@ const MyCourses = () => {
     queryKey: ["myPurchasedCourses", page, useDebouncedValue(search, 400), active],
     queryFn: () => getPurchasedCourses(page, 6, search, active),
     retry: 2,
+    staleTime: Infinity,
   });
 
   useEffect(() => {

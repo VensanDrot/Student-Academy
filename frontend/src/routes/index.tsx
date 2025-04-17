@@ -15,6 +15,7 @@ import TakeLesson from "../pages/TakeLesson";
 import CelebrationPage from "../pages/CelebrationPage";
 import CoursePreview from "../pages/CoursePreview";
 import Cookies from "js-cookie";
+import VerifyEmail from "../pages/VerifyEmail";
 
 const ProtectedRoute = ({ isAllowed, children }: { isAllowed?: string; children: React.ReactNode }) => {
   const access = !!Cookies.get("access");
@@ -52,7 +53,7 @@ const Routes = () => {
       children: [
         { path: "/registration", element: <RegistrationPage /> },
         { path: "/login", element: <LoginPage /> },
-        { path: "/verify/:token", element: <LoginPage /> },
+        { path: "/verify/:token", element: <VerifyEmail /> },
         { path: "*", element: <NotFound /> },
       ],
     },

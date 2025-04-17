@@ -26,8 +26,8 @@ const LoginPage = () => {
   const userLoginMutation = useLoginMutation({
     onSuccess: (data) => {
       Cookies.set("access", data?.access as string, { expires: 1 / 3 });
-      data?.refresh && Cookies.set("refresh", data?.refresh as string, { expires: 7 });
       Cookies.set("name", data?.user?.firstname as string, { expires: 7 });
+      data?.refresh && Cookies.set("refresh", data?.refresh as string, { expires: 7 });
       data?.user?.lastname && Cookies.set("lastname", data?.user?.lastname as string, { expires: 7 });
       data?.user?.email && Cookies.set("email", data?.user?.email as string, { expires: 7 });
       navigate("/");
@@ -80,7 +80,7 @@ const LoginPage = () => {
         <h1 className="text-xl font-semibold">{t("log_reg.login")}</h1>
 
         {error && (
-          <div className="p-4 flex gap-3 bg-[#FF003D26] rounded-md">
+          <div className="p-4 flex gap-3 bg-[#FF003D26] rounded-md items-center">
             <div className="flex items-center justify-center h-fit w-fit bg-errorred rounded-full p-1">
               <Cross className="fill-white h-4 w-4 rotate-45 shrink-0" />
             </div>

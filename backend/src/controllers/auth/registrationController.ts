@@ -108,7 +108,7 @@ export const registerUser = async (req: Request, res: Response): Promise<any> =>
             to: newUser?.email || "", // list of receivers
             subject: "Email Verification", // Subject line
             text: "Email Verification", // plain text body
-            html: `<a href="${process.env.WEBSITE_LINK + "/verify" + "/" + refresh}">Verify Email</a>`, // html body
+            html: `<a href="${process.env.WEBSITE_LINK + "verify" + "/" + refresh}">Verify Email</a>`, // html body
         });
 
         return res.status(200).json({ message: "Please verify email" });

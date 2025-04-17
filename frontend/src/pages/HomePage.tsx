@@ -27,6 +27,7 @@ const HomePage = () => {
     queryKey: ["retrievedCourses", page, useDebouncedValue(search, 400), active],
     queryFn: () => getAllCourses(page, 6, search, active),
     retry: 2,
+    staleTime: Infinity,
   });
 
   useEffect(() => {

@@ -30,12 +30,6 @@ const RegistrationPage = () => {
 
   const signUpMutation = useSignUpMutation({
     onSuccess: (data) => {
-      setData({
-        firstname: "",
-        lastname: "",
-        email: "",
-        password: "",
-      });
       setStep(2);
       // Cookies.set("access", data?.access, { expires: 0.25 });
       // data?.refresh && Cookies.set("refresh", data?.refresh, { expires: 7 });
@@ -71,6 +65,7 @@ const RegistrationPage = () => {
     }
 
     if (errCounter > 0) return;
+
     signUpMutation.mutate(data);
   };
 
