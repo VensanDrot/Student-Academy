@@ -49,6 +49,7 @@ const VerifyEmail: React.FC = () => {
           <>
             <h2 className="text-xl font-semibold mb-2 text-red-600">Verification Failed</h2>
             <p className="text-gray-600">This link may be invalid or expired.</p>
+            <p className="text-gray-600">{error}</p>
           </>
         )}
       </div>

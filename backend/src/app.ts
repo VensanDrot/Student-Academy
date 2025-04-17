@@ -12,7 +12,6 @@ import filesRouter from "./routes/files";
 import paymentRouter from "./routes/payments";
 import programRoutes from "./routes/programs";
 import coursesSetupRouter from "./routes/courseSetup";
-import sendEmail from "./controllers/email/email";
 
 const imageDir = path.join(__dirname, "../image");
 
@@ -53,8 +52,6 @@ app.use("/categories", authenticateToken, categoriesRouter);
 app.use("/payments", authenticateToken, paymentRouter);
 // programs crud routes for all types
 app.use("/programs", authenticateToken, programRoutes);
-
-app.post("/email", sendEmail);
 
 app.use((req: Request, res: Response) => {
     res.status(405).json({
