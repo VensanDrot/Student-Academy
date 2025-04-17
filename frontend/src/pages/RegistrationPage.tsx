@@ -4,12 +4,11 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ReactComponent as Cross } from "../img/plus.svg";
 import { useSignUpMutation } from "../hooks/mutations/register-user";
-import Cookies from "js-cookie";
+import { ReactComponent as Success } from "../img/success.svg";
 
 const RegistrationPage = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
-  const subdomain = window.location.href.split(".")[0];
+  const { t } = useTranslation();
   const [step, setStep] = useState(1);
   const [error, setError] = useState("");
   const [data, setData] = useState({
@@ -25,28 +24,19 @@ const RegistrationPage = () => {
     password: "",
   });
 
-  useEffect(() => {
-    if (subdomain.includes("sys")) navigate("/login");
-  }, [subdomain, navigate]);
-
   const inputHandler = (e: React.ChangeEvent<HTMLInputElement>, id?: string) => {
     setData((prev) => ({ ...prev, [id || e.target.id]: e.target.value }));
   };
 
   const signUpMutation = useSignUpMutation({
     onSuccess: (data) => {
-      setData({
-        firstname: "",
-        lastname: "",
-        email: "",
-        password: "",
-      });
-      Cookies.set("access", data?.access, { expires: 0.25 });
-      data?.refresh && Cookies.set("refresh", data?.refresh, { expires: 7 });
-      Cookies.set("name", data?.user?.firstname as string, { expires: 7 });
-      data?.user?.lastname && Cookies.set("lastname", data?.user?.lastname as string, { expires: 7 });
-      data?.user?.email && Cookies.set("email", data?.user?.email as string, { expires: 7 });
-      navigate("/");
+      setStep(2);
+      // Cookies.set("access", data?.access, { expires: 0.25 });
+      // data?.refresh && Cookies.set("refresh", data?.refresh, { expires: 7 });
+      // Cookies.set("name", data?.user?.firstname as string, { expires: 7 });
+      // data?.user?.lastname && Cookies.set("lastname", data?.user?.lastname as string, { expires: 7 });
+      // data?.user?.email && Cookies.set("email", data?.user?.email as string, { expires: 7 });
+      // navigate("/");
     },
     onError: (error) => {
       setError(error?.response?.data?.message || t("def_err"));
@@ -75,6 +65,7 @@ const RegistrationPage = () => {
     }
 
     if (errCounter > 0) return;
+
     signUpMutation.mutate(data);
   };
 
@@ -162,6 +153,28 @@ const RegistrationPage = () => {
             </Link>
           </p>
         </form>
+      )}
+      {step === 2 && (
+        <div className="flex flex-col self-center gap-4 w-[440px] -mt-12 items-center bg-white rounded-2xl p-6">
+          <div className="self-center flex flex-col gap-2">
+            <Success className="self-center" />
+            <h1 className="font-semibold text-st text-center">{t("log_reg.verify_email")}</h1>
+            <p className="font-semibold text-ft text-icongray">{t("log_reg.email_sent", { email: data?.email })}</p>
+            <p className="font-semibold text-ft text-icongray">{t("log_reg.email_action")}</p>
+            <button
+              className="font-semibold text-tr text-right text-linkblue"
+              onClick={() => {
+                signUpMutation.mutate(data);
+              }}
+            >
+              {t("log_reg.send_again")}
+            </button>
+          </div>
+
+          <Button type="button" className="w-full" onClick={() => navigate(`/login`)} view="outlined" size="xl">
+            {t("log_reg.back_to_main")}
+          </Button>
+        </div>
       )}
     </div>
   );

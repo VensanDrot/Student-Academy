@@ -15,14 +15,6 @@ const RootLayout = () => {
     const refreshToken = Cookies.get("refresh");
 
     if (refreshToken && !accessToken) refreshTokenMutation.mutate({ refreshToken });
-
-    if (
-      !accessToken &&
-      location.pathname !== "/registration" &&
-      location.pathname !== "/recoverpassword" &&
-      location.pathname !== "/login"
-    )
-      navigate(`/login?backto=${searchParams.get("backto") || location.pathname}`);
   }, [navigate, location.pathname]);
 
   const refreshTokenMutation = useRefreshToken({

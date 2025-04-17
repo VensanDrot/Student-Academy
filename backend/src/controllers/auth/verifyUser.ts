@@ -1,31 +1,29 @@
+// src/controllers/authController.ts
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { prisma } from "../../../prisma/index";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET!;
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET!;
 
-export const refreshToken = async (req: Request, res: Response): Promise<any> => {
+export const verifyUser = async (req: Request, res: Response): Promise<any> => {
     try {
-        // Get refresh token from headers
-        const refreshToken = req.headers["refresh"] as string;
-
-        if (!refreshToken) {
-            return res.status(401).json({ message: "Unauthorized: No refresh token provided" });
+        // 1. Get token from request body
+        const { token } = req.body;
+        if (!token) {
+            return res.status(400).json({ error: "Verification token is required." });
         }
 
         // Verify the refresh token
-        jwt.verify(refreshToken, JWT_REFRESH_SECRET, async (err, decoded: any) => {
+        jwt.verify(token, JWT_REFRESH_SECRET, async (err: any, decoded: any) => {
             if (err) {
-                return res.status(403).json({ message: "Forbidden: Invalid refresh token" });
+                return res.status(400).json({ error: "Invalid or expired verification token." });
             }
 
             // Check if user still exists
-            const user = await prisma.users.findUnique({
-                where: { id: decoded.id, verified: true },
+            const user = await prisma.users.update({
+                where: { id: decoded.id },
+                data: { verified: true },
                 select: {
                     id: true,
                     firstname: true,
@@ -59,8 +57,8 @@ export const refreshToken = async (req: Request, res: Response): Promise<any> =>
                 user,
             });
         });
-    } catch (error: any) {
-        console.error("Error refreshing token:", error);
-        return res.status(500).json({ message: "Server error", error: error.message });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Server error." });
     }
 };

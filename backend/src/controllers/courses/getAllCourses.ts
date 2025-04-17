@@ -5,10 +5,8 @@ import { Prisma } from "@prisma/client";
 
 const getAllCourses = async (req: Request, res: Response): Promise<any> => {
     const token = req.headers["x-access-token"] as string;
-
     const user_id = getDecodedToken(token);
 
-    // Extract query parameters: search, page, items_per_page
     const { search = "", cat_id, page = "1", items_per_page = "10" } = req.query;
     const pageNum = parseInt(page as string, 10) || 1;
     const perPage = parseInt(items_per_page as string, 10) || 10;
@@ -26,6 +24,8 @@ const getAllCourses = async (req: Request, res: Response): Promise<any> => {
     try {
         const where: Prisma.CoursesWhereInput = {
             OR: searchVariants,
+            activated: true,
+            approved: true,
             ...(cat_id ? { AND: { category: { equals: Number(cat_id) } } } : {}),
         };
 
@@ -48,7 +48,7 @@ const getAllCourses = async (req: Request, res: Response): Promise<any> => {
   c.cost, 
   c."created_at",
   (${relevanceSQL}) AS relevance,
-  (Select name from "Categories" where "Categories".id = c.category ) as category,
+  (SELECT name FROM "Categories" WHERE "Categories".id = c.category) AS category,
   (
     SELECT CAST(COUNT(*) AS int)
     FROM "Subscriptions" s
@@ -63,7 +63,7 @@ const getAllCourses = async (req: Request, res: Response): Promise<any> => {
         "id"
       FROM "CoursesFiles" cd
       WHERE "course_id" = c.id AND cd."file_type" ILIKE '%image%'
-      ORDER BY "created_at" DESC Limit 3
+      ORDER BY "created_at" DESC LIMIT 3
     ) AS cf
   ) AS course_files,
    ${
@@ -75,7 +75,7 @@ const getAllCourses = async (req: Request, res: Response): Promise<any> => {
         SELECT 1
         FROM "Subscriptions" s2
         WHERE s2."course_id" = c.id
-          AND s2."user_id" =${user_id}
+          AND s2."user_id" = ${user_id}
       ) THEN TRUE
       ELSE FALSE
     END
@@ -84,22 +84,18 @@ const getAllCourses = async (req: Request, res: Response): Promise<any> => {
    }
 FROM "Courses" c
 WHERE 
-  ${searchTerms
-      .map(
-          (term: string) => `
-        (c.name ILIKE '%${term}%' OR c."description" ILIKE '%${term}%')
-      `
-      )
-      .join(" OR ")}
-  AND c.activated = true ${cat_id ? `AND c.category = ${cat_id}` : ""}
+  (${searchTerms
+      .map((term: string) => `(c.name ILIKE '%${term}%' OR c."description" ILIKE '%${term}%')`)
+      .join(" OR ")})
+  AND c.activated = true
+  AND c.approved = true
+  ${cat_id ? `AND c.category = ${cat_id}` : ""}
 ORDER BY 
   ${relevanceSQL} DESC,
   c."created_at" DESC
 LIMIT ${perPage}
 OFFSET ${skip};
- `;
-
-        // console.log(rawQuery);
+        `;
 
         const response = await prisma.$transaction([
             prisma.courses.count({

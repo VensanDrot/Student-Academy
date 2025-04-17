@@ -29,11 +29,17 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
                 lastname: true,
                 id: true,
                 password: true,
+                verified: true,
             },
         });
 
         if (!user || !user?.password) {
             return res.status(404).json({ message: "Invalid email or password" });
+        }
+
+        // if user is not verified
+        if (!user?.verified) {
+            return res.status(403).json({ message: "Account is not verified" });
         }
 
         // Compare passwords

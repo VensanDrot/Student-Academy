@@ -11,20 +11,22 @@ datasource db {
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Users {
-  id             Int              @id @default(autoincrement())
-  created_at     DateTime         @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime?        @updatedAt @db.Timestamptz(6)
-  firstname      String?          @default("")
-  lastname       String?          @default("")
-  email          String?          @unique @default("")
-  phone_number   String?          @default("")
-  password       String?          @default("")
-  user_type      Int?
-  balance        Float?           @default(0)
-  Courses        Courses[]
-  PaymentMethods PaymentMethods[]
-  Subscriptions  Subscriptions[]
-  TestResults    TestResults[]
+  id                Int              @id @default(autoincrement())
+  created_at        DateTime         @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime?        @updatedAt @db.Timestamptz(6)
+  firstname         String?          @default("")
+  lastname          String?          @default("")
+  email             String?          @unique @default("")
+  phone_number      String?          @default("")
+  password          String?          @default("")
+  user_type         Int?
+  balance           Float?           @default(0)
+  verified          Boolean?         @default(false)
+  verification_code String?          @default("")
+  Courses           Courses[]
+  PaymentMethods    PaymentMethods[]
+  Subscriptions     Subscriptions[]
+  TestResults       TestResults[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -46,6 +48,7 @@ model Courses {
   category      Int?
   activated     Boolean?        @default(true)
   author        Int?
+  approved      Boolean?        @default(false)
   Users         Users?          @relation(fields: [author], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Categories    Categories?     @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
   CoursesFiles  CoursesFiles[]

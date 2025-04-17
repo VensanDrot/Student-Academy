@@ -1,27 +1,25 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import { prisma } from "../../../prisma/index";
-import dotenv from "dotenv";
-import { raw } from "@prisma/client/runtime/library";
 
 export const getCategoriesCounted = async (req: Request, res: Response): Promise<any> => {
     try {
-        const rawQuery = `SELECT *
-FROM (
-  SELECT 
-    c.id, 
-    c.name, 
-    (SELECT CAST(COUNT(*) AS int) 
-     FROM "Courses" 
-     WHERE "Courses".category = c.id) AS count
-  FROM "Categories" c
-) AS sub
-WHERE sub.count > 0;`;
-        const rawQueryTotal = `Select CAST(COUNT(*) as int) from "Courses"`;
+        const rawQuery = `
+        SELECT *
+        FROM (
+            SELECT 
+                c.id, 
+                c.name, 
+                (SELECT CAST(COUNT(*) AS int) 
+                 FROM "Courses" 
+                 WHERE "Courses".category = c.id AND "Courses".approved = true) AS count
+            FROM "Categories" c
+        ) AS sub
+        WHERE sub.count > 0;
+        `;
 
         const response = await prisma.$transaction([
             prisma.$queryRawUnsafe(rawQuery),
-            prisma.courses.count(),
+            prisma.courses.count({ where: { approved: true } }),
         ]);
 
         return res
