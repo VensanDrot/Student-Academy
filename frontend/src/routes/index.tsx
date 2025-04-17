@@ -1,5 +1,5 @@
 import React from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Navigate, RouterProvider, createBrowserRouter, useLocation } from "react-router-dom";
 import NotFound from "../pages/NotFound";
 import RootLayout from "../pages/RootLayout";
 import RegistrationPage from "../pages/RegistrationPage";
@@ -14,23 +14,37 @@ import CourseDetailsCl from "../pages/CourseDetails";
 import TakeLesson from "../pages/TakeLesson";
 import CelebrationPage from "../pages/CelebrationPage";
 import CoursePreview from "../pages/CoursePreview";
+import Cookies from "js-cookie";
+
+const ProtectedRoute = ({ isAllowed, children }: { isAllowed?: string; children: React.ReactNode }) => {
+  const access = !!Cookies.get("access");
+  const location = useLocation();
+
+  if (!access) {
+    return <Navigate to={`/login?backto=${location?.pathname}`} replace />;
+  }
+
+  if (isAllowed && Cookies.get(isAllowed) !== "allowed") {
+    return <Navigate to={"/notfound"} replace />;
+  }
+
+  return <>{children}</>;
+};
 
 const Routes = () => {
   const router = createBrowserRouter([
-    // ...routerDisplay(),
-    // ...logRegRoutes,
     {
       element: <RootLayoutSigned />,
       children: [
-        { path: "/", element: <HomePage /> },
-        { path: "/payment", element: <Payment /> },
-        { path: "/mycourses", element: <MyCourses /> },
-        { path: "/takelesson", element: <TakeLesson /> },
-        { path: "/createcourse", element: <CourseCreation /> },
-        { path: "/coursepreview", element: <CoursePreview /> },
-        { path: "/coursedetails", element: <CourseDetailsCl /> },
-        { path: "/completedtest", element: <CelebrationPage /> },
-        { path: "/uploadedcourses", element: <CreatedCourses /> },
+        { path: "/", element: <ProtectedRoute children={<HomePage />} /> },
+        { path: "/payment", element: <ProtectedRoute children={<Payment />} /> },
+        { path: "/mycourses", element: <ProtectedRoute children={<MyCourses />} /> },
+        { path: "/takelesson", element: <ProtectedRoute children={<TakeLesson />} /> },
+        { path: "/createcourse", element: <ProtectedRoute children={<CourseCreation />} /> },
+        { path: "/coursepreview", element: <ProtectedRoute children={<CoursePreview />} /> },
+        { path: "/coursedetails", element: <ProtectedRoute children={<CourseDetailsCl />} /> },
+        { path: "/completedtest", element: <ProtectedRoute children={<CelebrationPage />} /> },
+        { path: "/uploadedcourses", element: <ProtectedRoute children={<CreatedCourses />} /> },
       ],
     },
     {
@@ -38,6 +52,7 @@ const Routes = () => {
       children: [
         { path: "/registration", element: <RegistrationPage /> },
         { path: "/login", element: <LoginPage /> },
+        { path: "/verify/:token", element: <LoginPage /> },
         { path: "*", element: <NotFound /> },
       ],
     },
